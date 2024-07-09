@@ -1,9 +1,10 @@
 'use client'
-import React from 'react'
+import {useState} from 'react'
 import sanitizeHtml from 'sanitize-html';
+import '@/app/documentos/documentos.css';
 
 const page = () => {
-  const [home, setHome] = React.useState({
+  const [home, setHome] = useState({
     titulo: 'Obtiene Recursos para cumplir con el GHS',
     subtitulo: '+120 documentos, 16 HDS, 12 software',
     subtextpromocional: 'Apoyado por ',
@@ -152,8 +153,8 @@ const page = () => {
 
 
   return (
-    <div className='flex-1 min-h-screen items-center justify-between text-gray-900 py-24 md:py-24 px-10 md:px-24 text-center'>
-      <h1 className='text-black font-bold mb-4 text-2xl'>
+    <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24 text-center'>
+      <h1 className='font-bold mb-4 text-2xl'>
         {home.titulo}
       </h1>
       <p className='mb-1'>
@@ -171,7 +172,7 @@ const page = () => {
         }
       </span>
 
-      <div className='flex flex-row flex-wrap border border-primary shadow-xl rounded p-3 my-4 justify-between'>
+      <div className='flex flex-row flex-wrap border border-primary shadow rounded p-3 my-4 justify-between text-gray-500'>
         {menu.map((response: any, index: number) => (
           <div key={index} className='flex items-center mb-2 w-full md:w-auto'>
             <span className={`mx-1 ${response.color}`}>
@@ -188,18 +189,21 @@ const page = () => {
 
         {
           archivos.map((response: any) => (
-            <div className="w-full lg:w-1/2 flex flex-rows justify-between items-center hover:shadow p-4">
+            <div className='w-full lg:w-1/2 flex flex-rows justify-between items-center   py-4  text-gray-500 '>
+            <div className="w-full  w-[100%] md:w-[95%] m-auto flex flex-rows shadow mb-4  items-center py-4 ">
               <div className='w-[30%] min-w-[90px]'>
                 <span className={'text-primary text-6xl lg:text-8xl'}>
                   {response.icono}
                 </span>
               </div>
               <div className='flex flex-col items-start'>
-                <h1 className='text-black font-bold mb-4 text-2xl'>
+                <h1 className='font-bold mb-4 text-2xl'>
                   {response.titulo}
                 </h1>
-                <div className='mb-1 text-start text-sm'dangerouslySetInnerHTML={{ __html: sanitizeHtml(response.texto) }} />
+                <div id='archivos' className='mb-1 text-start text-sm' dangerouslySetInnerHTML={{ __html: sanitizeHtml(response.texto) }} />
               </div>
+            </div>
+
             </div>
           ))
         }
