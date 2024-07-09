@@ -18,14 +18,14 @@ const Nav = () => {
             <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
                 <div>
                 <div className="flex justify-center items-center">
-                        <a  href="/" className='m-auto py-[15px]'>
-                            <Image
-                                src="/icono.png"
-                                alt="Icon"
-                                width={90}
-                                height={32}
-                            />
-                        </a>    
+                            <a  href="/my_ghs" className='m-auto py-[15px]'>
+                                <Image
+                                    src="/my_ghs/icono.png"
+                                    alt="Icon"
+                                    width={90}
+                                    height={32}
+                                />
+                            </a>    
                 </div>
                 </div>
 
@@ -34,7 +34,7 @@ const Nav = () => {
                 <List>
                     {['Inicio','Documentos','Nosotros', 'Soluciones', 'Contacto'].map((text, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton href={text.toLowerCase()=='inicio'?'/':'/'+text.toLowerCase()} >
+                            <ListItemButton href={text.toLowerCase()=='inicio'?'/my_ghs':'/my_ghs/'+text.toLowerCase()} >
                                 <ListItemText primary={text} />
                             </ListItemButton>
                         </ListItem>
@@ -53,7 +53,7 @@ const Nav = () => {
                             <div className="flex-shrink-0 flex items-center">
                                 <a href="/">
                                     <Image
-                                        src="/icono.png"
+                                        src="/my_ghs/icono.png"
                                         alt="Icon"
                                         width={90}
                                         height={32}
@@ -65,16 +65,16 @@ const Nav = () => {
                             Plataforma #1 sobre GHS. Utilizada por más de 300 empresas
                         </div>
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href="/documentos" className="text-gray-700 hover:text-gray-900">
+                            <a href="/my_ghs/documentos" className="text-gray-700 hover:text-gray-900">
                                 Documentos
                             </a>
-                            <a href="/nosotros" className="text-gray-700 hover:text-gray-900">
+                            <a href="/my_ghs/nosotros" className="text-gray-700 hover:text-gray-900">
                                 Nosotros
                             </a>
-                            <a href="/soluciones" className="text-gray-700 hover:text-gray-900">
+                            <a href="/my_ghs/soluciones" className="text-gray-700 hover:text-gray-900">
                                 Soluciones
                             </a>
-                            <a href="/contacto" className="text-gray-700 hover:text-gray-900">
+                            <a href="/my_ghs/contacto" className="text-gray-700 hover:text-gray-900">
                                 Contacto
                             </a>
                         </div>

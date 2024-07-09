@@ -12,7 +12,7 @@ export default function Home() {
         </p>
         <div className="flex">
           <button className="bg-primary text-white py-2 px-4 ">Ingresar</button>
-          <input className="border border-primary p-2 " placeholder="Ingresar tu email" />
+          <input className="border border-primary p-2 w-full" placeholder="Ingresar tu email" />
         </div>
       </div>
       <div className="flex-1 p-4 hidden lg:block">
