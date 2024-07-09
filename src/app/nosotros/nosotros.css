@@ -1,0 +1,11 @@
+#nosotros ul{
+    list-style-type: disc;
+    padding: 0 24px;
+}
+#nosotros p{
+    margin: 16px 0;
+}
+#nosotros a{
+    text-decoration: underline;
+    color:#4eadea
+}
