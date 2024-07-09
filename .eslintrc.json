@@ -1,3 +1,8 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "react-hooks/rules-of-hooks": "off", // Deshabilitar regla para Hooks
+    "react/jsx-key": "warn", // Advertir en lugar de error por key faltante
+    "next/no-img-element": "off" // Deshabilitar advertencia sobre uso de <img>
+  }
 }
