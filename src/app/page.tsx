@@ -1,6 +1,15 @@
+'use client'
 import Image from "next/image";
+import { useEffect } from "react";
+import { BASE_URL } from "@/config-global";
 
 export default function Home() {
+
+  useEffect(() => {
+      console.log('Variables de entorno');
+     console.log(BASE_URL);
+  }, [])
+  
   return (
     <main className="flex min-h-screen items-center justify-between text-gray-900 py-24 md:py-24 px-1 md:px-24">
       <div className="flex-1 p-4">
