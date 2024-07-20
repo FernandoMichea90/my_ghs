@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
 import { useState } from "react";
+import Link from '@mui/material/Link';
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
-
-
+import { BASE_URL } from '@/config-global';
+import { getHref } from './urlHelpers';
 
 const Nav = () => {
     const [open, setOpen] = useState(false);
@@ -17,26 +18,28 @@ const Nav = () => {
         <Drawer open={open} onClose={toggleDrawer(false)}>
             <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
                 <div>
-                <div className="flex justify-center items-center">
-                            <a  href="/my_ghs" className='m-auto py-[15px]'>
-                                <Image
-                                    src="/my_ghs/icono.png"
-                                    alt="Icon"
-                                    width={90}
-                                    height={32}
-                                />
-                            </a>    
-                </div>
+                    <div className="flex justify-center items-center">
+                        <a href={BASE_URL} className='m-auto py-[15px]'>
+                            <Image
+                                src={getHref('icono.png')}
+                                alt="Icon"
+                                width={90}
+                                height={32}
+                            />
+                        </a>
+                    </div>
                 </div>
 
 
                 <Divider></Divider>
                 <List>
-                    {['Inicio','Documentos','Nosotros', 'Soluciones', 'Contacto'].map((text, index) => (
+                    {['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto'].map((text, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton href={text.toLowerCase()=='inicio'?'/my_ghs':'/my_ghs/'+text.toLowerCase()} >
+
+                            <ListItemButton component="a" href={getHref(text)}>
                                 <ListItemText primary={text} />
                             </ListItemButton>
+
                         </ListItem>
                     ))}
                 </List>
@@ -51,9 +54,9 @@ const Nav = () => {
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="flex-shrink-0 flex items-center">
-                                <a href="/">
+                                <a href={BASE_URL}>
                                     <Image
-                                        src="/my_ghs/icono.png"
+                                        src={getHref('icono.png')}
                                         alt="Icon"
                                         width={90}
                                         height={32}
@@ -65,16 +68,16 @@ const Nav = () => {
                             Plataforma #1 sobre GHS. Utilizada por más de 300 empresas
                         </div>
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href="/my_ghs/documentos" className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
                                 Documentos
                             </a>
-                            <a href="/my_ghs/nosotros" className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Nosotros')} className="text-gray-700 hover:text-gray-900">
                                 Nosotros
                             </a>
-                            <a href="/my_ghs/soluciones" className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Soluciones')} className="text-gray-700 hover:text-gray-900">
                                 Soluciones
                             </a>
-                            <a href="/my_ghs/contacto" className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Contacto')} className="text-gray-700 hover:text-gray-900">
                                 Contacto
                             </a>
                         </div>
