@@ -24,8 +24,11 @@ export default function Home() {
           <input className="border border-primary p-2 w-full" placeholder="Ingresar tu email" />
         </div>
       </div>
-      <div className="flex-1 p-4 hidden lg:block">
-        <img className="w-full" src="./Imagen2.png" alt="Imagen descriptiva" />
+      <div className="flex-1 flex-col p-4 hidden lg:flex items-center">
+        <img className="w-full" src="./image.png" alt="Imagen descriptiva" />
+        <a  href="#" className="text-center font-bold text-primary">
+          Descargar
+        </a>
       </div>
     </main>
   );
