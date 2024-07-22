@@ -63,7 +63,7 @@ export default function Home() {
       </div>
         <div className="my-10">
             <h1 className="font-bold p-4 mb-5 text-gray-900">
-              Who's on Kaggle
+              Who&apos;s on Kaggle
             </h1>
             <div className="flex flex-wrap w-100 justify-center">
               {
