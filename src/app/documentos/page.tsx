@@ -1,14 +1,15 @@
 'use client'
-import {useState} from 'react'
+import { useState } from 'react'
 import sanitizeHtml from 'sanitize-html';
 import '@/app/documentos/documentos.css';
+import { getHref } from '@/Utils/urlHelpers';
 
 const page = () => {
   const [home, setHome] = useState({
-    titulo: 'Obtiene Recursos para cumplir con el GHS',
-    subtitulo: '+120 documentos, 16 HDS, 12 software',
-    subtextpromocional: 'Apoyado por ',
-    textpromocional: 'Oxiquim',
+    titulo: 'Descarga recursos sobre GHS',
+    subtitulo: 'Información que te ayudará a cumplir con el reglamento GHS de Chile y conocer el sistema GHS internacional',
+    subtextpromocional: '',
+    textpromocional: '',
     href: 'https://music.youtube.com/playlist?list=LM',
   })
 
@@ -152,9 +153,38 @@ const page = () => {
   ]
 
 
+
+  const myGhsColUno = [
+    {
+      image: 'icono_ghs/image1.png',
+      texto: 'Curso sobre GHS'
+    },
+    {
+      image: 'icono_ghs/image2.png',
+      texto: 'Pictograma seguridad - GHS'
+    },
+    {
+      image: 'icono_ghs/image3.png',
+      texto: 'Formato HDS'
+    },
+    {
+      image: 'icono_ghs/image4.png',
+      texto: 'GHS en el transporte'
+    },
+    {
+      image: 'icono_ghs/image5.png',
+      texto: 'Regulacion GHS'
+    },
+    {
+      image: 'icono_ghs/image6.png',
+      texto: 'Software'
+    }
+
+  ]
+
   return (
-    <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24 text-center'>
-      <h1 className='font-bold mb-4 text-2xl'>
+    <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+      <h1 className='font-bold mb-4 text-2xl text-primary'>
         {home.titulo}
       </h1>
       <p className='mb-1'>
@@ -172,41 +202,41 @@ const page = () => {
         }
       </span>
 
-      <div className='flex flex-row flex-wrap border border-primary shadow rounded p-3 my-4 justify-between text-gray-500'>
-        {menu.map((response: any, index: number) => (
-          <div key={index} className='flex items-center mb-2 w-full md:w-auto'>
-            <span className={`mx-1 ${response.color}`}>
-              {response.icono}
-            </span>
-            <span>
-              {response.text}
-            </span>
-          </div>
-        ))}
-      </div>
 
-      <div className='flex flex-wrap'>
-
-        {
-          archivos.map((response: any) => (
-            <div className='w-full lg:w-1/2 flex flex-rows justify-between items-center   py-4  text-gray-500 '>
-            <div className="w-full  w-[100%] md:w-[95%] m-auto flex flex-rows shadow mb-4  items-center py-4 ">
-              <div className='w-[30%] min-w-[90px]'>
-                <span className={'text-primary text-6xl lg:text-8xl'}>
-                  {response.icono}
-                </span>
+      <div className='flex flex-wrap mt-20'>
+        <div className='w-[50%] flex flex-col justify-center items-center'>
+          {
+            myGhsColUno.map((response: any) => (
+              <div className='flex w-full md:w-[75%] my-4 justify-center items-center'>
+                <div className='w-[60px]'>
+                  <div className='flex w-[50px]'>
+                    <img src={getHref(response.image)}></img>
+                  </div>
+                </div>
+                <div className='w-[50%]'>
+                  {response.texto}
+                </div>
               </div>
-              <div className='flex flex-col items-start'>
-                <h1 className='font-bold mb-4 text-2xl'>
-                  {response.titulo}
-                </h1>
-                <div id='archivos' className='mb-1 text-start text-sm' dangerouslySetInnerHTML={{ __html: sanitizeHtml(response.texto) }} />
+            ))
+          }
+        </div>
+        <div className='w-[50%] flex flex-col justify-center items-center'>
+          {
+            myGhsColUno.map((response: any) => (
+              <div className='flex w-full md:w-[75%] my-4 justify-center items-center'>
+                <div className='w-[60px]'>
+                  <div className='flex w-[50px]'>
+                    <img src={getHref(response.image)}></img>
+                  </div>
+                </div>
+                <div className='w-[50%]'>
+                  {response.texto}
+                </div>
               </div>
-            </div>
-
-            </div>
-          ))
-        }
+            ))
+          }
+        </div>
+       
 
       </div>
     </div>
