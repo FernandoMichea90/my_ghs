@@ -1,4 +1,7 @@
+'use client'
+import { db } from '@/lib/firebase'
 import React from 'react'
+import { collection, getDocs } from 'firebase/firestore';
 
 const page = () => {
     var soluciones = {
@@ -23,6 +26,18 @@ const page = () => {
 
         ]
     }
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            const querySnapshot = await getDocs(collection(db, 'PagWhy'));
+            const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log(items)
+          };
+      
+          fetchData();
+    }, [])
+    
+
     return (
         <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
             <div className='flex flex-col items-center w-full'>
