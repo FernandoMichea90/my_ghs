@@ -1,6 +1,18 @@
+'use client'
+import { signInWithGoogle } from '@/lib/firebase';
 import React from 'react';
 
 const Page = () => {
+
+  const handleGoogleSignIn = async() => {
+    try {
+        await signInWithGoogle()
+    } catch (error) {
+      console.log('error al inicial sesion en google ',error)
+    }
+  }
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -33,6 +45,14 @@ const Page = () => {
             Iniciar Sesión
           </button>
         </form>
+        <div className="mt-4 text-center">
+          <button
+            onClick={handleGoogleSignIn}
+            className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+          >
+            Iniciar sesión con Google
+          </button>
+        </div>
         <p className="text-center text-gray-600 mt-4">
           ¿No tienes una cuenta? <a href="#" className="text-blue-500 hover:underline">Regístrate</a>
         </p>
