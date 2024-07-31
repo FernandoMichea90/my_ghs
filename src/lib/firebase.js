@@ -9,6 +9,8 @@ import {
   FIREBASE_APP_ID
 } from '@/config-global';
 
+import { getAuth } from 'firebase/auth';
+
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
@@ -20,4 +22,5 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export default app;
+export default app; 
+export const auth=getAuth(app)
