@@ -10,7 +10,7 @@ interface IUsuario {
   pass: string
 }
 
-const Page = () => {
+const Page = () => {  
 
   const [usuario, setUsuario] = useState<IUsuario>({ user: '', pass: '' })
   const router= useRouter()
