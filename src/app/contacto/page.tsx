@@ -19,7 +19,7 @@ const Page = () => {
         if (firstDoc) {
           const data = firstDoc.data();
           const htmlContent = data.html || ''; // Asegúrate de que el campo sea correcto
-          setContactoText(sanitizeHtml(htmlContent));
+          setContactoText(htmlContent);
         }
       } catch (error) {
         console.error('Error fetching contacto data:', error);

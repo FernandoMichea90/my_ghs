@@ -3,9 +3,39 @@
     padding: 0 24px;
 }
 #nosotros p{
-    margin: 16px 0;
+    margin: 0 0;
 }
 #nosotros a{
     text-decoration: underline;
     color:#4eadea
+}
+
+#nosotros h1 {
+    font-size: xxx-large; /* Puedes ajustar esto según lo necesites */
+    font-weight: bold;
+}
+
+#nosotros h2 {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+#nosotros h3 {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#nosotros h4 {
+    font-size: large;
+    font-weight: bold;
+}
+
+#nosotros h5 {
+    font-size: medium;
+    font-weight: bold;
+}
+
+#nosotros h6 {
+    font-size: small;
+    font-weight: bold;
 }
