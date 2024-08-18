@@ -1,28 +1,53 @@
-import React from 'react'
+'use client'
+import { db } from '@/lib/firebase';
+import React, { useState, useEffect } from 'react';
+import { collection, getDocs, DocumentData } from 'firebase/firestore';
 
-const page = () => {
-    var soluciones = {
-        titulo: '¿Por que usar PlanetColab?',
-        texto: 'Usando PlanetColab podras disminuir el tiempo de busquedas en internet de fuentes de informacion ambiental de calidad y confiables, lo que te ahorrara tiempo y contribuira a reducir las emisiones de gases de efecto invernadero(GEI).',
-        soluciones: [
-            {
-                img: "./ComponenteUno.png",
-                titulo: "Ahorra Tiempo y Recursos",
-                texto: "Aceleramos el acceso a informacion ambiental relevante para que ahorres en tiempo y seas mas productivo"
-            },
-            {
-                img: "./ComponenteDos.png",
-                titulo: "Accede a Informacion Confiable",
-                texto: "Analizamos y sistematizamos información ambiental confiable, para ayudar a evitar que uses en tu trabajo o estudios información imprecisa o falsa"
-            },
-            {
-                img: "./ComponenteTres.png",
-                titulo: "Reduce Emisiones GEI",
-                texto: "Contribuimos a reducir las emisiones GEI asociadas a las búsquedas de información ambiental en internet"
-            },
+interface Solucion {
+    img: string;
+    titulo: string;
+    texto: string;
+}
 
-        ]
-    }
+interface Soluciones {
+    titulo: string;
+    texto: string;
+    soluciones: Solucion[];
+}
+
+const Page: React.FC = () => {
+    const [soluciones, setSoluciones] = useState<Soluciones>({
+        titulo: '',
+        texto: '',
+        soluciones: []
+    });
+
+    const fetchData = async () => {
+        const querySnapshot = await getDocs(collection(db, 'PagWhy'));
+        const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DocumentData[];
+        const formattedData = formatData(items);
+        setSoluciones(formattedData);
+    };
+
+    const formatData = (items: DocumentData[]): Soluciones => {
+        const cabeza = items.find(item => item.id === 'Cabeza');
+        const solucionesList = items.filter(item => item.id !== 'Cabeza').map(item => ({
+            img: item.foto,
+            titulo: item.titulo,
+            texto: item.descripcion
+        }));
+
+        return {
+            titulo: cabeza ? cabeza.titulo : '',
+            texto: cabeza ? cabeza.descripcion : '',
+            soluciones: solucionesList
+        };
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
     return (
         <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
             <div className='flex flex-col items-center w-full'>
@@ -34,7 +59,7 @@ const page = () => {
                 </p>
 
                 <div className="flex flex-wrap justify-between items-center my-10">
-                    {soluciones.soluciones.map((response: any,index: number) => (
+                    {soluciones.soluciones.map((response, index) => (
                         <div key={index} className="p-2 text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                             <div className="w-[140px] h-[140px] mx-auto bg-gray-500 rounded-full overflow-hidden">
                                 <img className="w-full h-full object-cover" src={response.img} alt={response.titulo} />
@@ -44,10 +69,9 @@ const page = () => {
                         </div>
                     ))}
                 </div>
-
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default page
+export default Page;
