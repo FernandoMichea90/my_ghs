@@ -13,7 +13,7 @@ interface IInfoPrincipal {
   tags: string[]
 }
 
-const page = () => {
+const Page = () => {
   const [home, setHome] = useState<IInfoPrincipal>({
     titulo: '',
     subtitulo: '',
@@ -22,7 +22,7 @@ const page = () => {
     href: '',
     tags: []
   });
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -74,7 +74,28 @@ const page = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return (
+    <div className='flex-1 min-h-screen flex flex-col space-y-6  justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+      <div className='w-full max-w-md animate-pulse'>
+        <div className='h-8 bg-gray-200 rounded mb-6 w-1/2'></div>
+        <div className='space-y-4'>
+          <div className='mb-4'>
+            <div className='h-4 bg-gray-200 rounded mb-2 w-1/3'></div>
+            <div className='h-10 bg-gray-200 rounded'></div>
+          </div>
+          <div className='mb-4'>
+            <div className='h-4 bg-gray-200 rounded mb-2 w-1/3'></div>
+            <div className='h-20 bg-gray-200 rounded'></div>
+          </div>
+          <div className='mb-4'>
+            <div className='h-4 bg-gray-200 rounded mb-2 w-1/3'></div>
+            <div className='h-10 bg-gray-200 rounded'></div>
+          </div>
+          <div className='h-12 bg-gray-200 rounded w-1/4'></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
@@ -112,17 +133,7 @@ const page = () => {
             className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
           />
         </div>
-        <div className='mb-4'>
-          <label htmlFor='href' className='block text-sm font-medium text-gray-700'>Enlace</label>
-          <input
-            type='text'
-            id='href'
-            name='href'
-            value={home.href}
-            onChange={handleInputChange}
-            className='mt-1 block w-full border-gray-300 rounded-md shadow-sm'
-          />
-        </div>
+        
         <button
           type='submit'
           className='inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600'
@@ -134,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
