@@ -18,8 +18,10 @@ const Page = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+      alert("paso por aqui")
       await signInWithGoogle()
     } catch (error) {
+      alert("Lo sentimos, no estas autorizado para ingresar.")
       console.log('error al inicial sesion en google ', error)
     }
   }
@@ -86,17 +88,17 @@ const Page = () => {
             Iniciar Sesión
           </button>
         </form>
-        <div className="mt-4 text-center">
+        {/* <div className="mt-4 text-center">
           <button
             onClick={handleGoogleSignIn}
             className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
           >
             Iniciar sesión con Google
           </button>
-        </div>
-        <p className="text-center text-gray-600 mt-4">
+        </div> */}
+        {/* <p className="text-center text-gray-600 mt-4">
           ¿No tienes una cuenta? <a href="#" className="text-blue-500 hover:underline">Regístrate</a>
-        </p>
+        </p> */}
       </div>
     </div>
   );

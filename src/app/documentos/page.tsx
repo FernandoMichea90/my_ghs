@@ -14,6 +14,11 @@ interface IInfoPrincipal {
   href: string,
   tags: string[]
 }
+interface Document {
+  id?: string;
+  titulo: string;
+  href: string;
+}
 
 const page = () => {
   const [home, setHome] = useState<IInfoPrincipal>({
@@ -48,7 +53,10 @@ const page = () => {
         const q = query(documentCollectionRef, where("tag", "==", tag));
         const documentCollectionDocSnap = await getDocs(q);
         if (!documentCollectionDocSnap.empty) {
-          const documents = documentCollectionDocSnap.docs.map(doc => doc.data());
+          const documents = documentCollectionDocSnap.docs.map(doc => {
+            var registros=fetchDocuments(doc.id)
+            return {...doc.data(),registros:registros}
+          });
           setDocumentCollection(documents as any);
           console.log(documents);
         } else {
@@ -63,6 +71,27 @@ const page = () => {
       console.log('Component unmounted');
     };
   }, [searchParams]);
+
+
+
+  const fetchDocuments = async (title:string) => {
+    try {
+        const documentCollectionRef = collection(db, 'DocumentCollection', title, 'collections');
+        const querySnapshot = await getDocs(documentCollectionRef);
+        const documents = querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            titulo: doc.data().titulo,
+            href: doc.data().href,
+        })) as Document[];
+
+        return documents
+    } catch (error) {
+        console.error("Error fetching documents: ", error);
+    } finally {
+      console.log('Tarea finalizada')
+    }
+};
+
 
   return (
     <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
@@ -83,26 +112,15 @@ const page = () => {
           </a>
         ))}
       </div>
-      {/* <span>
-        {(home.href.trim() !== '' || home.href.trim == null) &&
-          (
-            <>
-              {home.subtextpromocional + ' '}
-              <a className='text-red-500 underline font-bold' href={home.href}>{home.textpromocional}</a>
-            </>
-          )
-        }
-      </span> */}
-      <div className='flex flex-wrap mt-20'>
+      
+      <div id='DocumentCollection' className='flex flex-wrap mt-20'>
         <ul>
           {DocumentCollection.map((doc: any, index) => (
 
-            <li>
-              <a href={doc.href}>
-                <span>
+            <li className='list-none'>
+                <span className='font-bold text-primary'>
                   {doc.titulo}
                 </span>
-              </a>
             </li>
           ))}
         </ul>
