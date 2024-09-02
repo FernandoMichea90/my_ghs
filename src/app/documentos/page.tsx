@@ -32,31 +32,36 @@ const page = () => {
 
   const [DocumentCollection, setDocumentCollection] = useState([])
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
+
 
 
   useEffect(() => {
     const fetchData = async () => {
       console.log('Component mounted');
       try {
-        var tag = searchParams.get('tag');
-        if (!tag) {
-          tag = 'HDS'
-        }
+        let tag = searchParams.get('tag') || 'HDS';
+
         const tagRef = doc(db, "Documentos", "InfoPrincipal");
         const tagDocSnap = await getDoc(tagRef);
+
         if (tagDocSnap.exists()) {
           setHome(tagDocSnap.data() as IInfoPrincipal);
         } else {
           console.log("InfoPrincipal no encontrada");
         }
+
         const documentCollectionRef = collection(db, "DocumentCollection");
         const q = query(documentCollectionRef, where("tag", "==", tag));
         const documentCollectionDocSnap = await getDocs(q);
+
         if (!documentCollectionDocSnap.empty) {
-          const documents = documentCollectionDocSnap.docs.map(doc => {
-            var registros=fetchDocuments(doc.id)
-            return {...doc.data(),registros:registros}
-          });
+          const documents = await Promise.all(
+            documentCollectionDocSnap.docs.map(async (doc) => {
+              const registros = await fetchDocuments(doc.id);
+              return { ...doc.data(), registros };
+            })
+          );
           setDocumentCollection(documents as any);
           console.log(documents);
         } else {
@@ -66,31 +71,33 @@ const page = () => {
         console.error("Error al obtener los datos: ", error);
       }
     };
+
     fetchData();
+
     return () => {
       console.log('Component unmounted');
     };
   }, [searchParams]);
 
-
-
-  const fetchDocuments = async (title:string) => {
+  const fetchDocuments = async (title: string) => {
     try {
-        const documentCollectionRef = collection(db, 'DocumentCollection', title, 'collections');
-        const querySnapshot = await getDocs(documentCollectionRef);
-        const documents = querySnapshot.docs.map(doc => ({
-            id: doc.id,
-            titulo: doc.data().titulo,
-            href: doc.data().href,
-        })) as Document[];
+      const documentCollectionRef = collection(db, 'DocumentCollection', title, 'collections');
+      const querySnapshot = await getDocs(documentCollectionRef);
+      const documents = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        titulo: doc.data().titulo,
+        href: doc.data().href,
+      })) as Document[];
 
-        return documents
+      return documents;
     } catch (error) {
-        console.error("Error fetching documents: ", error);
+      console.error("Error fetching documents: ", error);
+      return []; // Return an empty array in case of error
     } finally {
-      console.log('Tarea finalizada')
+      console.log('Tarea finalizada');
     }
-};
+  };
+
 
 
   return (
@@ -112,15 +119,27 @@ const page = () => {
           </a>
         ))}
       </div>
-      
+
       <div id='DocumentCollection' className='flex flex-wrap mt-20'>
         <ul>
-          {DocumentCollection.map((doc: any, index) => (
+          {DocumentCollection.map((doc: any, index) => doc.registros.length > 0 && (
+            <li className='list-none my-2'>
+              <span className='font-bold text-primary'>
+                {doc.titulo}
+              </span>
 
-            <li className='list-none'>
-                <span className='font-bold text-primary'>
-                  {doc.titulo}
-                </span>
+              {doc.registros.length > 0 && doc.registros.map((e: any) => (
+                <ul>
+                  <li className='list-none my-2'>
+                    <a href={e.href} target='_blank'>
+                      <span className='text-primary font-semibold'>
+                        {'>> ' + e.titulo}
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              ))
+              }
             </li>
           ))}
         </ul>
