@@ -23,7 +23,8 @@ export default function EditHome() {
     src: "",
     pdf: ""
   });
-
+  const [href, setHref] = useState('');
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[]>([]);
 
   useEffect(() => {
@@ -59,6 +60,10 @@ export default function EditHome() {
     setArrayInfo(updatedArrayInfo);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setPdfFile(file);
+};
   const handleSubmit = async () => {
     const infoDocRef = doc(db, "Home", "info");
     const arrayDocRef = doc(db, "Home", "arrayInfo");
@@ -101,6 +106,22 @@ export default function EditHome() {
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
+        <div className='space-y-2'>
+                    <label className='block text-sm font-medium text-gray-700'>Enlace o PDF</label>
+                    <input
+                        type='text'
+                        value={href}
+                        onChange={(e) => setHref(e.target.value)}
+                        placeholder='Ingresa un enlace o sube un PDF'
+                        className='w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black'
+                    />
+                    <input
+                        type='file'
+                        onChange={handleFileChange}
+                        accept='application/pdf'
+                        className='mt-2 block text-sm text-gray-700'
+                    />
+                </div>
       </div>
 
       <div className="mb-6">

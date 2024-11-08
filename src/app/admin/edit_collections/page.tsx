@@ -79,6 +79,10 @@ const DocumentPage = () => {
         setIsEditing(true);
     };
 
+    const handleShowCollection = (document: Document) => {
+        router.push(`/admin/edit_collection/${document.id}`);
+    }
+
     const handleTagChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newTag = e.target.value;
         setTag(newTag);
@@ -144,7 +148,7 @@ const DocumentPage = () => {
                         <span>{doc.titulo} - {doc.tag}</span>
                         <div>
                             <button
-                                onClick={() => handleEdit(doc)}
+                                onClick={() => handleShowCollection(doc)}
                                 className='mr-2 px-2 py-1 bg-green-500 text-white rounded'
                             >
                                 Ver Registros

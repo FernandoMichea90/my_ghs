@@ -1,5 +1,5 @@
 'use client'
-import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, addDoc, updateDoc, deleteDoc,getDoc} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { db, storage } from "@/lib/firebase";
@@ -20,6 +20,7 @@ const Page = ({ params }: IEditCollection) => {
     const { title } = params;
     const [loading, setLoading] = useState(false);
     const [documentos, setDocumentos] = useState<Document[]>([]);
+    const [docu, setDoc] = useState<Document | null>(null);
     const [titulo, setTitulo] = useState('');
     const [href, setHref] = useState('');
     const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -33,6 +34,11 @@ const Page = ({ params }: IEditCollection) => {
 
     const fetchDocuments = async () => {
         try {
+            const docCollectionRef = doc(db, 'DocumentCollection', title);
+            const docSnap = await getDoc(docCollectionRef);
+            if (docSnap.exists()) {
+                setDoc(docSnap.data() as Document);
+            }
             const documentCollectionRef = collection(db, 'DocumentCollection', title, 'collections');
             const querySnapshot = await getDocs(documentCollectionRef);
             const documents = querySnapshot.docs.map(doc => ({
@@ -119,7 +125,7 @@ const Page = ({ params }: IEditCollection) => {
 
     return (
         <div className='flex-1 min-h-screen py-24 md:py-24 px-4 md:px-24 bg-gray-50'>
-            <h1 className='text-2xl font-bold mb-6 text-gray-800'>Collection: {title}</h1>
+            <h1 className='text-2xl font-bold mb-6 text-gray-800'>Collection: {docu?.titulo}</h1>
 
             <form onSubmit={handleSaveDocument} className='space-y-6 bg-white p-6 rounded-lg shadow-md'>
                 <div className='space-y-2'>
@@ -132,6 +138,7 @@ const Page = ({ params }: IEditCollection) => {
                         className='w-full border border-gray-300 text-black rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                 </div>
+                
                 <div className='space-y-2'>
                     <label className='block text-sm font-medium text-gray-700'>Enlace o PDF</label>
                     <input
