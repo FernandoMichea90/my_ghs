@@ -81,7 +81,7 @@ const Nav = () => {
                                 Soluciones
                             </a>
                             <a href={getHref('Contacto')} className="text-white  rounded-lg hover:text-gray-900 bg-red-500 py-1 px-2  flex items-center">
-                                <img className='mr-1' src={getHref("icono_ghs/world.png")}></img>
+                                <img className='mr-1 h-[15px]'  src={getHref("icono_ghs/world.png")}></img>
                                 Contacto
                             </a>
                         </div>

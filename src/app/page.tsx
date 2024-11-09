@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
 import ArrayInfoDiv from "@/Utils/Componentes/ArrayInfoDiv";
+import { getHref } from "@/Utils/urlHelpers";
 
 export default function Home() {
   interface InfoHome {
@@ -29,13 +30,13 @@ export default function Home() {
 
     e.preventDefault();
     setCargando(true);
-    var response= await saveEmail(email);
-    if (response){
-        setShowToast(true);
-        setTimeout(() => {
-          setShowToast(false);
-          setCargando(false);
-        }, 3000);
+    var response = await saveEmail(email);
+    if (response) {
+      setShowToast(true);
+      setTimeout(() => {
+        setShowToast(false);
+        setCargando(false);
+      }, 3000);
     }
     setEmail("");
 
@@ -116,38 +117,49 @@ export default function Home() {
 
       <div className="flex items-center justify-between text-gray-900">
 
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 mt-12">
           {infoHome ? (
             <>
-              <h1 className="text-2xl font-bold mb-4">
+              <h1 className="text-2xl font-bold mb-4 text-center">
                 {infoHome.titulo}
               </h1>
-              <p className="mb-4">
+              <div className="text-center flex items-center justify-center mb-4">
+                <span className="flex-1 text-right pr-2">
+                  Sponsor:
+                </span>
+                <span className="flex-1 text-left pl-2">
+                  <a className="text-red-600 underline" href="https://chatgpt.com/c/672eb47c-5e0c-8010-8ea0-5d510db976a5" target="_blank">
+                    GHS-Sustainability
+                  </a>
+                </span>
+              </div>
+              <p className="mb-4 text-center">
                 {infoHome.parrafo}
               </p>
-              <div className="w-full">
-                <form onSubmit={handleSubmit} className="w-full  flex" >
-                    <button 
-                    className={`bg-primary text-white py-2 px-4 font-bold flex items-center justify-center ${cargando ? "opacity-50 cursor-not-allowed" : ""}`} 
-                    disabled={cargando? true:false}
+              <div className="w-full flex justify-center items-center align-middle">
+                <div className="flex-1 flex justify-center  " id="prueba">
+                  <form onSubmit={handleSubmit} >
+                    <button
+                      className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center justify-center ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
+                      disabled={cargando ? true : false}
                     >
-                    {cargando ? (
-                      <>
-                      <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
-                      Enviando
-                      </>
-                    ) : (
-                      "Enviar"
-                    )}
+                      {cargando ? (
+                        <>
+                          <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
+                          Descargando
+                        </>
+                      ) : (
+                        "+7k Descargas"
+                      )}
                     </button>
-                  <input className="border border-primary p-2 w-full"
-                    value={email}
-                    type="email"
-                    disabled={cargando? true:false}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Ingresar tu email" required />
-                    
-                </form>
+
+                  </form>
+                </div>
+                <div className="flex-1 m-auto">
+                  <span>
+                    Última versión oct-24 | Alertas | Plazos
+                  </span>
+                </div>
               </div>
             </>
           ) : (
@@ -165,10 +177,7 @@ export default function Home() {
         <div className="flex-1 flex-col p-4 hidden lg:flex items-center">
           {infoHome ? (
             <>
-              <img className="w-[75%]" src={infoHome.src} alt="Imagen descriptiva" />
-              <a href={infoHome.pdf} className="text-center font-bold text-primary">
-                Descargar
-              </a>
+              <img className="w-[95%]" src={getHref('icono_ghs/home_icon.png')} alt="Imagen descriptiva" />
             </>
           ) : (
             <div className="animate-pulse flex flex-col items-center" >
@@ -178,37 +187,11 @@ export default function Home() {
           )}
         </div>
       </div>
-      <div className="my-10">
-
-        {arrayInfo ?
-          <h1 className="font-bold p-4 mb-5 text-gray-900">
-            Who&apos;s on Kaggle
-          </h1> :
-          <div ></div>
-
-        }
-        <div className="flex flex-wrap w-100 justify-center">
-          {arrayInfo ? (
-            arrayInfo.map((response: ArrayInfoInt, index) => (
-              <ArrayInfoDiv key={index} arrayInfo={response} />
-            ))
-          ) : (
-            Array(3).fill(0).map((_, index) => (
-
-              <div
-                key={index}
-                className="flex py-8 m-2 text-gray-900 w-full md:w-[28%] items-center animate-pulse"
-              >
-                <div className="w-[10vw] h-[10vh] bg-gray-300 rounded"></div>
-                <div className="px-3 flex-1">
-                  <div className="h-6 bg-gray-300 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-300 rounded"></div>
-                </div>
-              </div>
-              // <div key={index} className="animate-pulse w-64 p-4 m-2 bg-gray-300 rounded h-24"></div>
-            ))
-          )}
-        </div>
+      <div className="flex justify-center items-center my-12">
+        <span> mGHS es usado por equipos de seguridad y medio ambiente </span>
+      </div>
+      <div className="flex justify-center items-center">
+        <img src={getHref("iconos_empresa.png")}></img>
       </div>
     </main>
   );
