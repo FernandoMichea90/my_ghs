@@ -1,14 +1,17 @@
 'use client'
 import React from 'react'
 import { useState } from "react";
-import Link from '@mui/material/Link';
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import { BASE_URL } from '@/config-global';
 import { getHref } from './urlHelpers';
 
 const Nav = () => {
+    const Icono=getHref('icono_ghs/myGhs.png')
     const [open, setOpen] = useState(false);
+    // const menuArray=['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto']
+    const menuArray=['Inicio'   , 'Nosotros', 'Soluciones', 'Contacto']
+
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -21,7 +24,7 @@ const Nav = () => {
                     <div className="flex justify-center items-center">
                         <a href={BASE_URL} className='m-auto py-[15px]'>
                             <Image
-                                src={getHref('icono.png')}
+                                src={Icono}
                                 alt="Icon"
                                 width={90}
                                 height={32}
@@ -33,7 +36,7 @@ const Nav = () => {
 
                 <Divider></Divider>
                 <List>
-                    {['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto'].map((text, index) => (
+                    {menuArray.map((text, index) => (
                         <ListItem key={index} disablePadding>
 
                             <ListItemButton component="a" href={getHref(text)}>
@@ -49,14 +52,14 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="bg-white fixed top-0 left-0 right-0 z-10 border-b border-primary">
+            <nav className="bg-white fixed top-0 left-0 right-0 z-10 border-b border-gray-400">
                 <div className="w-full px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="flex-shrink-0 flex items-center">
                                 <a href={BASE_URL}>
                                     <Image
-                                        src={getHref('icono.png')}
+                                        src={Icono}
                                         alt="Icon"
                                         width={90}
                                         height={32}
@@ -64,20 +67,21 @@ const Nav = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="hidden md:flex items-center ml-6 text-red-500 font-bold text-center">
+                        {/* <div className="hidden md:flex items-center ml-6 text-red-500 font-bold text-center">
                             Plataforma #1 sobre GHS. Utilizada por más de 300 empresas
-                        </div>
+                        </div> */}
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
+                            {/* <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
                                 Documentos
-                            </a>
+                            </a> */}
                             <a href={getHref('Nosotros')} className="text-gray-700 hover:text-gray-900">
                                 Nosotros
                             </a>
                             <a href={getHref('Soluciones')} className="text-gray-700 hover:text-gray-900">
                                 Soluciones
                             </a>
-                            <a href={getHref('Contacto')} className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Contacto')} className="text-white  rounded-lg hover:text-gray-900 bg-red-500 py-1 px-2  flex items-center">
+                                <img className='mr-1' src={getHref("icono_ghs/world.png")}></img>
                                 Contacto
                             </a>
                         </div>
