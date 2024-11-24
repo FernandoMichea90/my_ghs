@@ -1,10 +1,10 @@
 'use client'
-import { useEffect, useState } from 'react'
-import '@/app/documentos/documentos.css';
-import { db } from "@/lib/firebase"
-import { doc, getDoc, query, where, collection, getDocs } from 'firebase/firestore'
-import { useSearchParams } from 'next/navigation';
 
+import { useEffect, useState, Suspense } from 'react';
+import '@/app/documentos/documentos.css';
+import { db } from "@/lib/firebase";
+import { doc, getDoc, query, where, collection, getDocs } from 'firebase/firestore';
+import { useSearchParams } from 'next/navigation';
 
 interface IInfoPrincipal {
   titulo: string,
@@ -14,13 +14,14 @@ interface IInfoPrincipal {
   href: string,
   tags: string[]
 }
+
 interface Document {
   id?: string;
   titulo: string;
   href: string;
 }
 
-const page = () => {
+const PageContent = () => {
   const [home, setHome] = useState<IInfoPrincipal>({
     titulo: 'GHS y Seguridad Química en Minería',
     subtitulo: 'Selecciona la etiqueta correspondiente al tema que quieres obtener recursos y con eso ya estarás obteniendo información detallada sobre GHS',
@@ -28,9 +29,9 @@ const page = () => {
     textpromocional: 'astehutse',
     href: 'https://music.youtube.com/playlist?list=LM',
     tags: ['HDS', 'Regulación', 'Guias', 'Software', 'Manuales', 'Alertas', 'Cursos']
-  })
+  });
 
-  const [DocumentCollection, setDocumentCollection] = useState([])
+  const [DocumentCollection, setDocumentCollection] = useState([]);
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
 
@@ -40,20 +41,20 @@ const page = () => {
       setLoading(true); // Comienza la carga
       try {
         let tag = searchParams.get('tag') || 'HDS';
-  
+
         const tagRef = doc(db, "Documentos", "InfoPrincipal");
         const tagDocSnap = await getDoc(tagRef);
-  
+
         if (tagDocSnap.exists()) {
           setHome(tagDocSnap.data() as IInfoPrincipal);
         } else {
           console.log("InfoPrincipal no encontrada");
         }
-  
+
         const documentCollectionRef = collection(db, "DocumentCollection");
         const q = query(documentCollectionRef, where("tag", "==", tag));
         const documentCollectionDocSnap = await getDocs(q);
-  
+
         if (!documentCollectionDocSnap.empty) {
           const documents = await Promise.all(
             documentCollectionDocSnap.docs.map(async (doc) => {
@@ -72,15 +73,13 @@ const page = () => {
         setLoading(false); // Termina la carga
       }
     };
-  
+
     fetchData();
-  
+
     return () => {
       console.log('Component unmounted');
     };
   }, [searchParams]);
-  
-
 
   const fetchDocuments = async (title: string) => {
     try {
@@ -96,12 +95,10 @@ const page = () => {
     } catch (error) {
       console.error("Error fetching documents: ", error);
       return []; // Return an empty array in case of error
-    } finally {   
+    } finally {
       console.log('Tarea finalizada');
     }
   };
-
-
 
   return (
     <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
@@ -133,7 +130,7 @@ const page = () => {
               </a>
             ))}
           </div>
-  
+
           <div id='DocumentCollection' className='flex flex-wrap mt-20'>
             <ul>
               {DocumentCollection.map((doc: any, index) => doc.registros.length > 0 && (
@@ -141,7 +138,7 @@ const page = () => {
                   <span className='font-bold text-primary'>
                     {doc.titulo}
                   </span>
-  
+
                   {doc.registros.length > 0 && doc.registros.map((e: any, eIndex: number) => (
                     <ul key={eIndex}>
                       <li className='list-none my-2'>
@@ -160,8 +157,13 @@ const page = () => {
         </>
       )}
     </div>
-  )
-  
-}
+  );
+};
 
-export default page
+const PageWrapper = () => (
+  <Suspense fallback={<div>Cargando...</div>}>
+    <PageContent />
+  </Suspense>
+);
+
+export default PageWrapper;

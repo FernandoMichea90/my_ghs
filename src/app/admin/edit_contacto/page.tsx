@@ -4,11 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import dynamic from 'next/dynamic';
-import 'react-quill/dist/quill.snow.css';
 import {formats,modules} from '@/lib/quillconfig'
-
-
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 
 const AdminPage = () => {
   const [contactoText, setContactoText] = useState<string>('');
@@ -65,8 +63,49 @@ const AdminPage = () => {
             value={contactoText}
             onChange={handleEditorChange}
             theme='snow'
-            modules={modules} // Configuración personalizada
-            formats={formats} // Formatos personalizados
+            modules={{
+              toolbar: [
+                [{ 'header': '1'}, { 'header': '2' }, { 'header': [1,2,3, 4, 5, 6] }], // Encabezados
+                [{ 'font': [] }], // Familia de fuente
+                [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
+                ['bold', 'italic', 'underline', 'strike'], // Estilo de texto
+                [{ 'color': [] }, { 'background': [] }], // Color de texto y fondo
+                [{ 'script': 'sub' }, { 'script': 'super' }], // Subíndice/Superíndice
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Listas
+                [{ 'indent': '-1' }, { 'indent': '+1' }], // Sangría
+                [{ 'direction': 'rtl' }], // Dirección de texto
+                [{ 'align': [] }], // Alineación de texto
+                ['link', 'image', 'video'], // Insertar
+                ['blockquote', 'code-block'], // Citas y código
+                ['clean'] // Limpiar formato
+              ],
+              
+            }} // Configuración personalizada
+            formats={[  
+              'align',
+              'background',
+              'blockquote',
+              'bold',
+              'bullet',
+              'code',
+              'code-block',
+              'color',
+              'direction',
+              'font',
+              'formula',
+              'header',
+              'indent',
+              'italic',
+              'link',
+              'list',
+              'script',
+              'size',
+              'strike',
+              'table',
+              'underline',
+              'image',
+              'video'
+            ]} // Formatos personalizados
           />
           <button
             onClick={saveContent}
