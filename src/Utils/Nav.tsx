@@ -1,14 +1,17 @@
 'use client'
 import React from 'react'
 import { useState } from "react";
-import Link from '@mui/material/Link';
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import { BASE_URL } from '@/config-global';
 import { getHref } from './urlHelpers';
 
 const Nav = () => {
+    const Icono = getHref('icono_ghs/myGhs.png')
     const [open, setOpen] = useState(false);
+    // const menuArray=['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto']
+    const menuArray = ['Inicio', 'Nosotros', 'Soluciones', 'Contacto','Suscribete']
+
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -21,7 +24,7 @@ const Nav = () => {
                     <div className="flex justify-center items-center">
                         <a href={BASE_URL} className='m-auto py-[15px]'>
                             <Image
-                                src={getHref('icono.png')}
+                                src={Icono}
                                 alt="Icon"
                                 width={90}
                                 height={32}
@@ -33,7 +36,7 @@ const Nav = () => {
 
                 <Divider></Divider>
                 <List>
-                    {['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto'].map((text, index) => (
+                    {menuArray.map((text, index) => (
                         <ListItem key={index} disablePadding>
 
                             <ListItemButton component="a" href={getHref(text)}>
@@ -49,14 +52,17 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="bg-white fixed top-0 left-0 right-0 z-10 border-b border-primary">
-                <div className="w-full px-4 sm:px-6 lg:px-8">
+            <nav className="bg-white fixed top-0 left-0 right-0 border-b border-gray-400">
+                <div className="w-full px-4 sm:px-6 lg:px-8 -z-10">
+
                     <div className="flex justify-between h-16">
+
                         <div className="flex">
+                           
                             <div className="flex-shrink-0 flex items-center">
                                 <a href={BASE_URL}>
                                     <Image
-                                        src={getHref('icono.png')}
+                                        src={Icono}
                                         alt="Icon"
                                         width={90}
                                         height={32}
@@ -64,20 +70,28 @@ const Nav = () => {
                                 </a>
                             </div>
                         </div>
-                        <div className="hidden md:flex items-center ml-6 text-red-500 font-bold text-center">
-                            Plataforma #1 sobre GHS. Utilizada por más de 300 empresas
+                        <div className="absolute mt-2  right-[45%] hidden md:flex items-center  text-gray-600  text-center">
+                        <a href={getHref('suscribete')} >
+                                <div className="flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-md hover:shadow-md ">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M5 5h13a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3m0 1c-.5 0-.94.17-1.28.47l7.78 5.03l7.78-5.03C18.94 6.17 18.5 6 18 6zm6.5 6.71L3.13 7.28C3.05 7.5 3 7.75 3 8v9a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2V8c0-.25-.05-.5-.13-.72z" />
+                                    </svg>
+                                    <span>Suscríbete</span>
+                                </div>
+                            </a>
                         </div>
                         <div className="hidden md:flex items-center space-x-4">
-                            <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
+                            {/* <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
                                 Documentos
-                            </a>
+                            </a> */}
                             <a href={getHref('Nosotros')} className="text-gray-700 hover:text-gray-900">
                                 Nosotros
                             </a>
                             <a href={getHref('Soluciones')} className="text-gray-700 hover:text-gray-900">
                                 Soluciones
                             </a>
-                            <a href={getHref('Contacto')} className="text-gray-700 hover:text-gray-900">
+                            <a href={getHref('Contacto')} className="text-white  rounded-lg  bg-red-500 py-1 px-2  flex items-center hover:shadow">
+                                <img className='mr-1 h-[15px]' src={getHref("icono_ghs/world.png")}></img>
                                 Contacto
                             </a>
                         </div>

@@ -21,12 +21,14 @@ const Page: React.FC = () => {
         texto: '',
         soluciones: []
     });
+    const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'PagWhy'));
         const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DocumentData[];
         const formattedData = formatData(items);
         setSoluciones(formattedData);
+        setLoading(false);
     };
 
     const formatData = (items: DocumentData[]): Soluciones => {
@@ -47,6 +49,27 @@ const Page: React.FC = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
+    if (loading) {
+        return (
+            <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+                <div className='flex flex-col items-center w-full'>
+                    <div className="animate-pulse w-3/4 h-8 bg-gray-300 rounded my-4"></div>
+                    <div className="animate-pulse w-full h-4 bg-gray-300 rounded mb-10"></div>
+
+                    <div className="flex flex-wrap justify-between items-center my-10 w-[70%]">
+                        {[...Array(3)].map((_, index) => (
+                            <div key={index} className="p-2 text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+                                <div className="w-[140px] h-[140px] mx-auto bg-gray-300 rounded-full animate-pulse"></div>
+                                <div className="animate-pulse w-3/4 h-6 bg-gray-300 rounded my-7 mx-auto"></div>
+                                <div className="animate-pulse w-full h-4 bg-gray-300 rounded"></div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>

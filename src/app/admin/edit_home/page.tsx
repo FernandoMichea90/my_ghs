@@ -1,14 +1,24 @@
 'use client'
 import { useEffect, useState } from "react";
-import { db } from "@/lib/firebase"; 
-import { doc, getDoc, setDoc } from "firebase/firestore"; 
+import { db } from "@/lib/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import ButtonUrlFile from "@/components/ButtonUrlFile";
+import SaveLinkOrFile from "@/Utils/Componentes/SaveLinkOrFile";
 
 export default function EditHome() {
   interface InfoHome {
     titulo: string;
     parrafo: string;
-    src: string;
-    pdf: string;
+    text_sponsor:string;
+    url_sponsor:string;
+    url_file_main: string;
+    url_file_alert: string;
+    url_file_plazos: string;
+    url_file_sponsor: string;
+    src: any;
+    pdf: any;
+
+
   }
 
   interface ArrayInfoInt {
@@ -18,13 +28,22 @@ export default function EditHome() {
   }
 
   const [infoHome, setInfoHome] = useState<InfoHome>({
-    titulo: "",
-    parrafo: "",
-    src: "",
-    pdf: ""
+    titulo: '',
+    parrafo: '',
+    url_file_main: '',
+    url_file_alert: '',
+    url_file_plazos: '',
+    src: null,
+    pdf: null,
+    url_file_sponsor: '',
+    text_sponsor:'',
+    url_sponsor:''
   });
-
+  const [href, setHref] = useState('');
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[]>([]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,17 +65,22 @@ export default function EditHome() {
   }, []);
 
   const handleInfoHomeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setInfoHome({
-      ...infoHome,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    setInfoHome((prevInfoHome) => ({
+      ...prevInfoHome, [name]: value
+    }))
   };
 
   const handleArrayInfoChange = (index: number, field: string, value: string) => {
-    const updatedArrayInfo = arrayInfo.map((item, i) => 
+    const updatedArrayInfo = arrayInfo.map((item, i) =>
       i === index ? { ...item, [field]: value } : item
     );
     setArrayInfo(updatedArrayInfo);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0] || null;
+    setPdfFile(file);
   };
 
   const handleSubmit = async () => {
@@ -70,66 +94,51 @@ export default function EditHome() {
   };
 
   return (
-    <main className="py-24 md:py-24 px-1 md:px-24 n text-gray-900 ">
-      <div className="mb-6">
+    <main className="py-24 md:py-24  px-1 md:px-24  text-gray-900">
+      <div className="bg-gray-100 p-3 mb-6 rounded">
         <h1 className="text-2xl font-bold mb-4">Edit Home Information</h1>
-        <label className="block mb-2">Title:</label>
+        <label className="block mb-2">Titulo:</label>
         <input
           name="titulo"
           value={infoHome.titulo}
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
-        <label className="block mb-2">Paragraph:</label>
+        <label className="block mb-2">Texto:</label>
         <textarea
           name="parrafo"
           value={infoHome.parrafo}
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
-        <label className="block mb-2">Image URL:</label>
+
+
+       <label className="block mb-2">Sponsor:</label>
         <input
-          name="src"
-          value={infoHome.src}
+          name="text_sponsor"
+          value={infoHome.text_sponsor}
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
-        <label className="block mb-2">PDF URL:</label>
+
+      <label className="block mb-2">Link Sponsor:</label>
         <input
-          name="pdf"
-          value={infoHome.pdf}
+          name="url_sponsor"
+          type="url"
+          placeholder="https://example.com"
+          value={infoHome.url_sponsor}
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
+
+        <button onClick={handleSubmit} className="bg-blue-500 rounded text-white py-2 px-4">Guardar</button>
       </div>
 
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-4">Edit Array Information</h1>
-        {arrayInfo.map((item, index) => (
-          <div key={index} className="mb-4 border p-4">
-            <label className="block mb-2">Title:</label>
-            <input
-              value={item.titulo}
-              onChange={(e) => handleArrayInfoChange(index, "titulo", e.target.value)}
-              className="border p-2 w-full mb-4"
-            />
-            <label className="block mb-2">Text:</label>
-            <textarea
-              value={item.texto}
-              onChange={(e) => handleArrayInfoChange(index, "texto", e.target.value)}
-              className="border p-2 w-full mb-4"
-            />
-            <label className="block mb-2">Image URL:</label>
-            <input
-              value={item.img}
-              onChange={(e) => handleArrayInfoChange(index, "img", e.target.value)}
-              className="border p-2 w-full mb-4"
-            />
-          </div>
-        ))}
-      </div>
 
-      <button onClick={handleSubmit} className="bg-primary text-white py-2 px-4">Save Changes</button>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_sponsor" ></SaveLinkOrFile>
+
     </main>
   );
 }
