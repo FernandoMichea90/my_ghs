@@ -1,8 +1,9 @@
 'use client'
 import { signInWithGoogle, auth } from '@/lib/firebase';
+import { useAuth } from '@/Utils/Context/AuthContext';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 
 interface IUsuario {
@@ -14,12 +15,15 @@ const Page = () => {
 
   const [usuario, setUsuario] = useState<IUsuario>({ user: '', pass: '' })
   const router= useRouter()
-
+  const {user}= useAuth()
+  const [cargando, setCargando] = useState(false)
 
   const handleGoogleSignIn = async () => {
     try {
+      alert("paso por aqui")
       await signInWithGoogle()
     } catch (error) {
+      alert("Lo sentimos, no estas autorizado para ingresar.")
       console.log('error al inicial sesion en google ', error)
     }
   }
@@ -32,23 +36,34 @@ const Page = () => {
     }));
   };
 
+
+
   const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
 
     event.preventDefault()
+    setCargando(true)
     const { user, pass } = usuario
     try {
       await signInWithEmailAndPassword(auth, user, pass)
+      setCargando(false)
       console.log('Inicio de sesión con correo y contraseña exitoso');
-      router.push("/")
-      
+      router.push('/login')      
     } catch (error) {
       console.log(error)
       alert('Error al iniciar sesión con correo y contraseña:');
+      setCargando(false)
 
     }
 
   }
 
+  useEffect(() => {
+    if(user){
+      router.push('/admin')
+    }
+   
+  }, [user])
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -81,22 +96,23 @@ const Page = () => {
           </div>
           <button
             type="submit"
+            disabled={cargando? true: false}
             className="w-full bg-primary text-white p-3 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
-            Iniciar Sesión
+            {cargando? '...cargando':'iniciar sesion'}
           </button>
         </form>
-        <div className="mt-4 text-center">
+        {/* <div className="mt-4 text-center">
           <button
             onClick={handleGoogleSignIn}
             className="w-full bg-red-500 text-white p-3 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
           >
             Iniciar sesión con Google
           </button>
-        </div>
-        <p className="text-center text-gray-600 mt-4">
+        </div> */}
+        {/* <p className="text-center text-gray-600 mt-4">
           ¿No tienes una cuenta? <a href="#" className="text-blue-500 hover:underline">Regístrate</a>
-        </p>
+        </p> */}
       </div>
     </div>
   );
