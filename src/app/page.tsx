@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
-import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+import { addDoc, collection, doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import ArrayInfoDiv from "@/Utils/Componentes/ArrayInfoDiv";
 import { getHref } from "@/Utils/urlHelpers";
 
@@ -11,6 +11,11 @@ export default function Home() {
     parrafo: string;
     src: string;
     pdf: string;
+    url_file_main: string;
+    url_file_alert: string;
+    url_file_plazos: string;
+    url_file_sponsor: string;
+    actualizacion: Timestamp | null;
   }
 
   interface ArrayInfoInt {
@@ -29,17 +34,29 @@ export default function Home() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
-    setCargando(true);
-    var response = await saveEmail(email);
-    if (response) {
-      setShowToast(true);
+    setCargando(true);    
       setTimeout(() => {
         setShowToast(false);
         setCargando(false);
       }, 3000);
-    }
-    setEmail("");
 
+      setEmail("");
+
+  }
+
+  const changeTimestampDate=(time_actualizacion:Timestamp)=>{
+    var fecha_actualizacion= time_actualizacion
+    return fecha_actualizacion
+  }
+
+  function formatDate(timestamp: Timestamp | null): string {
+    if (!timestamp) return 'Sin fecha';
+  
+    const date = new Date(timestamp.toDate());
+    const day = date.getDate();
+    const month = date.toLocaleString('es-ES', { month: 'short' }).toLowerCase();
+  
+    return `${day}-${month}`;
   }
 
   // funcion para guardar el correo  en la base de datos de firebase 
@@ -67,7 +84,12 @@ export default function Home() {
           titulo: "Recursos para GHS y Seguridad Química en Minería",
           parrafo: "Aquí encontrarás formatos de HDS para minerales y sustancias químicas, presentaciones, minutas explicativas, acceso a software libre y recursos que te ayudarán a cumplir con el reglamento GHS y facilitar el acceso a mercado de tus productos",
           src: "./image1.png",
-          pdf: ""
+          pdf: "",
+          url_file_main:"",
+          url_file_alert:"",
+          url_file_sponsor:"",
+          url_file_plazos:"",
+          actualizacion: null
         };
         await setDoc(infoDocRef, initialInfoData);
         setInfoHome(initialInfoData);
@@ -124,11 +146,10 @@ export default function Home() {
                 {infoHome.titulo}
               </h1>
               <div className="text-center flex items-center justify-center mb-4">
-                <span className="flex-1 text-right pr-2">
-                  Sponsor:
-                </span>
-                <span className="flex-1 text-left pl-2">
-                  <a className="text-red-600 underline" href="https://chatgpt.com/c/672eb47c-5e0c-8010-8ea0-5d510db976a5" target="_blank">
+                <span className="flex-1 text-center pr-2">
+                  {"Sponsor: "}
+                
+                  <a className="text-red-600 underline" href={infoHome.url_file_sponsor} target="_blank">
                     GHS-Sustainability
                   </a>
                 </span>
@@ -142,6 +163,11 @@ export default function Home() {
                     <button
                       className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center justify-center ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
                       disabled={cargando ? true : false}
+                      onClick={() => {
+                        if (!cargando && infoHome.url_file_main) {
+                          window.open(infoHome.url_file_main, '_blank'); // Abre la URL en una nueva pestaña
+                        }
+                      }}
                     >
                       {cargando ? (
                         <>
@@ -157,7 +183,8 @@ export default function Home() {
                 </div>
                 <div className="flex-1 m-auto">
                   <span>
-                    Última versión oct-24 | Alertas | Plazos
+                     Última versión {infoHome.actualizacion ? formatDate(infoHome.actualizacion)+' ' : 'No disponible'}  
+                    | <a href={infoHome.url_file_alert} target="_blank" >   Alertas</a> | <a href={infoHome.url_file_plazos} target="_blank" >Plazos</a>
                   </span>
                 </div>
               </div>

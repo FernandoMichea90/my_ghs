@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Modal, Box, Button, TextField } from '@mui/material';
 
 const ButtonUrlFile = () => {
-    
-    const SubirDocumento = (nombre: string) => {
-        if(nombre=='url'){
-                
-        }
-        if(nombre=='file'){
+    const [modalFile, setModalFile] = useState(false);
+    const [modalUrl, setModalUrl] = useState(false);
+    const [urlInput, setUrlInput] = useState('');
+    const [fileInput, setFileInput] = useState(null);
 
-
+    const SubirDocumento = (nombre:string) => {
+        if (nombre === 'url') {
+            setModalUrl(true);
         }
-        return '';
+        if (nombre === 'file') {
+            setModalFile(true);
+        }
+    };
+
+    const handleUrlSave = () => {
+        console.log('URL guardado:', urlInput);
+        setModalUrl(false);
+    };
+
+    const handleFileSave = () => {
+        if (fileInput) {
+            // console.log('Archivo seleccionado:', fileInput.name);
+            // Aquí deberías enviar el archivo al servidor para guardarlo en la carpeta `public`.
+        }
+        setModalFile(false);
     };
 
     return (
@@ -35,6 +51,42 @@ const ButtonUrlFile = () => {
                     </svg>
                 </button>
             </div>
+
+            {/* Modal para URL */}
+            <Modal open={modalUrl} onClose={() => setModalUrl(false)}>
+                <Box className="bg-white p-6 rounded-md mx-auto mt-10 max-w-md">
+                    <h2 className="text-lg font-bold mb-4">Ingrese la URL</h2>
+                    <TextField
+                        fullWidth
+                        label="URL"
+                        value={urlInput}
+                        onChange={(e) => setUrlInput(e.target.value)}
+                        variant="outlined"
+                    />
+                    <div className="flex justify-end mt-4">
+                        <Button variant="contained" color="primary" onClick={handleUrlSave}>
+                            Guardar URL
+                        </Button>
+                    </div>
+                </Box>
+            </Modal>
+
+            {/* Modal para Archivo */}
+            <Modal open={modalFile} onClose={() => setModalFile(false)}>
+                <Box className="bg-white p-6 rounded-md mx-auto mt-10 max-w-md">
+                    <h2 className="text-lg font-bold mb-4">Subir Archivo</h2>
+                    <input
+                        type="file"
+                        // onChange={(e) => setFileInput(e.target.files[0])}
+                        className="mb-4"
+                    />
+                    <div className="flex justify-end">
+                        <Button variant="contained" color="primary" onClick={handleFileSave}>
+                            Guardar Archivo
+                        </Button>
+                    </div>
+                </Box>
+            </Modal>
         </>
     );
 };

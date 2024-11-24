@@ -3,18 +3,20 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import ButtonUrlFile from "@/components/ButtonUrlFile";
+import SaveLinkOrFile from "@/Utils/Componentes/SaveLinkOrFile";
 
 export default function EditHome() {
   interface InfoHome {
     titulo: string;
     parrafo: string;
-    sponsor_link:string;
-    sponsor_url:string;
     url_file_main: string;
     url_file_alert: string;
     url_file_plazos: string;
+    url_file_sponsor: string;
     src: any;
     pdf: any;
+
+
   }
 
   interface ArrayInfoInt {
@@ -26,17 +28,19 @@ export default function EditHome() {
   const [infoHome, setInfoHome] = useState<InfoHome>({
     titulo: '',
     parrafo: '',
-    sponsor_link:'',
-    sponsor_url:'',
     url_file_main: '',
     url_file_alert: '',
     url_file_plazos: '',
     src: null,
     pdf: null,
+    url_file_sponsor: ''
+
   });
   const [href, setHref] = useState('');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[]>([]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,8 +63,8 @@ export default function EditHome() {
 
   const handleInfoHomeChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setInfoHome((prevInfoHome)=>({
-      ...prevInfoHome,[name]:value
+    setInfoHome((prevInfoHome) => ({
+      ...prevInfoHome, [name]: value
     }))
   };
 
@@ -87,8 +91,8 @@ export default function EditHome() {
   };
 
   return (
-    <main className="py-24 md:py-24 px-1 md:px-24 text-gray-900">
-      <div className="mb-6">
+    <main className="py-24 md:py-24  px-1 md:px-24  text-gray-900">
+      <div className="bg-gray-100 p-3 mb-6 rounded">
         <h1 className="text-2xl font-bold mb-4">Edit Home Information</h1>
         <label className="block mb-2">Titulo:</label>
         <input
@@ -105,56 +109,15 @@ export default function EditHome() {
           className="border p-2 w-full mb-4"
         />
 
-        <div className="p-2 border rounded-lg">
-          <span className="uppercase font-bold">Sponsor</span>
-          <label className="block mb-2">Link:</label>
-          <input
-            name="sponsor_link"
-            value={infoHome.sponsor_link}
-            onChange={handleInfoHomeChange}
-            className="border p-2 w-full mb-4"
-          />
-          <label className="block mb-2">URL:</label>
-          <input
-            name="sponsor_url"
-            value={infoHome.sponsor_url}
-            onChange={handleInfoHomeChange}
-            className="border p-2 w-full mb-4"
-          />
-        </div>
-        <ButtonUrlFile></ButtonUrlFile>
-        <input
-          name="src"
-          value={infoHome.src}
-          onChange={handleInfoHomeChange}
-          className="border p-2 w-full mb-4 hidden"
-        />
-        <label className="block mb-2">PDF URL:</label>
-        <input
-          name="pdf"
-          value={infoHome.pdf}
-          onChange={handleInfoHomeChange}
-          className="border p-2 w-full mb-4"
-        />
-        <div className='space-y-2'>
-          <label className='block text-sm font-medium text-gray-700'>Enlace o PDF</label>
-          <input
-            type='text'
-            value={href}
-            onChange={(e) => setHref(e.target.value)}
-            placeholder='Ingresa un enlace o sube un PDF'
-            className='w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black'
-          />
-          <input
-            type='file'
-            onChange={handleFileChange}
-            accept='application/pdf'
-            className='mt-2 block text-sm text-gray-700'
-          />
-        </div>
+        <button onClick={handleSubmit} className="bg-blue-500 rounded text-white py-2 px-4">Guardar</button>
       </div>
 
-      <button onClick={handleSubmit} className="bg-primary text-white py-2 px-4">Save Changes</button>
+
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Sponsor" nameArchivo="url_file_alert" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_sponsor" ></SaveLinkOrFile>
+
     </main>
   );
 }
