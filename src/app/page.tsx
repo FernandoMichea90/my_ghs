@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { addDoc, collection, doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import ArrayInfoDiv from "@/Utils/Componentes/ArrayInfoDiv";
 import { getHref } from "@/Utils/urlHelpers";
+import { url } from "inspector";
 
 export default function Home() {
   interface InfoHome {
@@ -16,6 +17,8 @@ export default function Home() {
     url_file_plazos: string;
     url_file_sponsor: string;
     actualizacion: Timestamp | null;
+    text_sponsor:string;
+    url_sponsor:string;
   }
 
   interface ArrayInfoInt {
@@ -89,6 +92,8 @@ export default function Home() {
           url_file_alert:"",
           url_file_sponsor:"",
           url_file_plazos:"",
+          text_sponsor:"",
+          url_sponsor:"",
           actualizacion: null
         };
         await setDoc(infoDocRef, initialInfoData);
@@ -145,15 +150,20 @@ export default function Home() {
               <h1 className="text-2xl font-bold mb-4 text-center">
                 {infoHome.titulo}
               </h1>
-              <div className="text-center flex items-center justify-center mb-4">
-                <span className="flex-1 text-center pr-2">
-                  {"Sponsor: "}
-                
-                  <a className="text-red-600 underline" href={infoHome.url_file_sponsor} target="_blank">
-                    GHS-Sustainability
-                  </a>
-                </span>
-              </div>
+
+              {infoHome.url_sponsor && infoHome.text_sponsor &&
+              
+                <div className="text-center flex items-center justify-center mb-4">
+                  <span className="flex-1 text-center pr-2">
+                    {"Sponsor: "}
+                  
+                    <a className="text-red-600 underline" href={infoHome.url_sponsor} target="_blank">
+                      {infoHome.text_sponsor}
+                    </a>
+                  </span>
+                </div>
+              
+              }
               <p className="mb-4 text-center">
                 {infoHome.parrafo}
               </p>

@@ -9,6 +9,8 @@ export default function EditHome() {
   interface InfoHome {
     titulo: string;
     parrafo: string;
+    text_sponsor:string;
+    url_sponsor:string;
     url_file_main: string;
     url_file_alert: string;
     url_file_plazos: string;
@@ -33,8 +35,9 @@ export default function EditHome() {
     url_file_plazos: '',
     src: null,
     pdf: null,
-    url_file_sponsor: ''
-
+    url_file_sponsor: '',
+    text_sponsor:'',
+    url_sponsor:''
   });
   const [href, setHref] = useState('');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -109,12 +112,30 @@ export default function EditHome() {
           className="border p-2 w-full mb-4"
         />
 
+
+       <label className="block mb-2">Sponsor:</label>
+        <input
+          name="text_sponsor"
+          value={infoHome.text_sponsor}
+          onChange={handleInfoHomeChange}
+          className="border p-2 w-full mb-4"
+        />
+
+      <label className="block mb-2">Link Sponsor:</label>
+        <input
+          name="url_sponsor"
+          type="url"
+          placeholder="https://example.com"
+          value={infoHome.url_sponsor}
+          onChange={handleInfoHomeChange}
+          className="border p-2 w-full mb-4"
+        />
+
         <button onClick={handleSubmit} className="bg-blue-500 rounded text-white py-2 px-4">Guardar</button>
       </div>
 
 
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" ></SaveLinkOrFile>
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Sponsor" nameArchivo="url_file_alert" ></SaveLinkOrFile>
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_sponsor" ></SaveLinkOrFile>
 

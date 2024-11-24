@@ -7,6 +7,8 @@ import { collection, where, query, getDocs } from 'firebase/firestore';
 
 interface AuthContextType {
   user: IUserApp | null;
+  loading:boolean
+  setLoading:any
 }
 
 interface IUserApp extends User {
@@ -21,6 +23,8 @@ interface AuthProviderProps {
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<IUserApp | null>(null);
+  const [loading, setLoading] = useState(true);
+
 
   const checkIfAdmin = async (user: User): Promise<boolean> => {
     try {
@@ -41,8 +45,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (currentUser) {
         const isAdmin = await checkIfAdmin(currentUser);
         setUser({ ...currentUser, administrador: isAdmin });
+        setLoading(false)
       } else {
         setUser(null);
+        setLoading(false)
       }
     });
 
@@ -50,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user,loading,setLoading }}>
       {children}
     </AuthContext.Provider>
   );

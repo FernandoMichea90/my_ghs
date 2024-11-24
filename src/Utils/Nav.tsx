@@ -90,7 +90,7 @@ const Nav = () => {
                             <a href={getHref('Soluciones')} className="text-gray-700 hover:text-gray-900">
                                 Soluciones
                             </a>
-                            <a href={getHref('Contacto')} className="text-white  rounded-lg hover:text-gray-900 bg-red-500 py-1 px-2  flex items-center">
+                            <a href={getHref('Contacto')} className="text-white  rounded-lg  bg-red-500 py-1 px-2  flex items-center hover:shadow">
                                 <img className='mr-1 h-[15px]' src={getHref("icono_ghs/world.png")}></img>
                                 Contacto
                             </a>

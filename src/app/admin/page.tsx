@@ -1,9 +1,9 @@
 import { getHrefAdmin } from '@/Utils/urlHelpers'
 import React from 'react'
 
-const page = () => {
+function page () {
   return (
-    <div className='m-20 font-bold border  rounded py-10 px-4'>
+    <div className='mx-20 font-bold border  rounded py-10 px-4'>
        <div className='border-b'>
             <h1>
                 <span className='flex justify-center items-center mb-3'>
