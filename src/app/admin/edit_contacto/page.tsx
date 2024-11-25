@@ -56,7 +56,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+    <div className='flex min-h-screen flex-col items-center justify-between text-gray-500  px-10 md:px-24'>
       {isEditing ? (
         <div className='w-full'>
           <ReactQuill

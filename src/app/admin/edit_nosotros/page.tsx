@@ -63,7 +63,7 @@ const EditNosotrosPage = () => {
   };
 
   return (
-    <div className='flex min-h-screen flex-col  justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+    <div className='flex min-h-screen flex-col  justify-between text-gray-500  px-10 md:px-24'>
       {error && <div className='text-red-500 mb-4'>{error}</div>}
       {isEditing ? (
         <div className='w-full'>

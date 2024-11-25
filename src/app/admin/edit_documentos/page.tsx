@@ -98,7 +98,7 @@ const Page = () => {
   );
 
   return (
-    <div className='flex-1 min-h-screen items-center justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+    <div className='flex-1 min-h-screen items-center justify-between text-gray-500  px-10 md:px-24'>
       <h1 className='text-2xl font-bold'>Admin Documentos</h1>
       <form onSubmit={handleSubmit} className='mt-6'>
         <div className='mb-4'>
