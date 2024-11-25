@@ -7,7 +7,7 @@ import { BASE_URL } from '@/config-global';
 import { getHref } from './urlHelpers';
 
 const Nav = () => {
-    const Icono = getHref('icono_ghs/myghs.png')
+    const Icono = getHref('icono_ghs/main_icon.png')
     const [open, setOpen] = useState(false);
     // const menuArray=['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto']
     const menuArray = ['Inicio', 'Nosotros', 'Soluciones', 'Contacto','Suscribete']
