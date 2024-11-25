@@ -66,7 +66,7 @@ export default function AdminPage() {
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     return (
-        <main className="py-24 md:py-24 px-1 md:px-24">
+        <main className="px-24">
             <h1 className="text-2xl font-bold my-8 text-black">Administración de Correos</h1>
             {loading ? (
                 <p>Cargando correos...</p>

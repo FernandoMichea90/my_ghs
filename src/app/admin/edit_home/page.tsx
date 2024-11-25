@@ -94,7 +94,7 @@ export default function EditHome() {
   };
 
   return (
-    <main className="py-24 md:py-24  px-1 md:px-24  text-gray-900">
+    <main className="px-1 md:px-24  text-gray-900">
       <div className="bg-gray-100 p-3 mb-6 rounded">
         <h1 className="text-2xl font-bold mb-4">Edit Home Information</h1>
         <label className="block mb-2">Titulo:</label>
@@ -136,8 +136,8 @@ export default function EditHome() {
 
 
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" ></SaveLinkOrFile>
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_sponsor" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_alert" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
 
     </main>
   );

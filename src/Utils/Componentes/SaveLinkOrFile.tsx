@@ -65,7 +65,6 @@ const SaveLinkOrFile: React.FC<SaveLinkOrFileProps> = ({
                 const downloadURL = await getDownloadURL(snapshot.ref);
                 setArchivo({ ...archivo, [nameArchivo]: downloadURL });
                 if (nameArchivo === 'url_file_main') {
-                    alert('prueba')
                     await updateDoc(infoDocRef, {
                         [nameArchivo]:downloadURL,
                         actualizacion: Timestamp.fromDate(new Date()),
