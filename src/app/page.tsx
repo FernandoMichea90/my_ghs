@@ -168,10 +168,10 @@ export default function Home() {
                 {infoHome.parrafo}
               </p>
               <div className="w-full flex justify-center items-center align-middle">
-                <div className="flex-1 flex justify-center  " id="prueba">
+                <div className="flex-1 flex justify-end" id="prueba">
                   <form onSubmit={handleSubmit} >
                     <button
-                      className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center justify-center ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
+                      className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center mr-1  ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
                       disabled={cargando ? true : false}
                       onClick={() => {
                         if (!cargando && infoHome.url_file_main) {
@@ -192,7 +192,7 @@ export default function Home() {
                   </form>
                 </div>
                 <div className="flex-1 m-auto">
-                  <span>
+                  <span >
                      Última versión {infoHome.actualizacion ? formatDate(infoHome.actualizacion)+' ' : 'No disponible'}  
                     | <a href={infoHome.url_file_alert} target="_blank" >   Alertas</a> | <a href={infoHome.url_file_plazos} target="_blank" >Plazos</a>
                   </span>
