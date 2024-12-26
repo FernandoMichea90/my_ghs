@@ -147,7 +147,7 @@ export default function Home() {
         <div className="flex-1 p-4 mt-12">
           {infoHome ? (
             <>
-              <h1 className="text-2xl font-bold mb-4 text-center">
+              <h1 className="text-4xl font-bold mb-4 text-center">
                 {infoHome.titulo}
               </h1>
 
