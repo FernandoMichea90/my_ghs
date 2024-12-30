@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/Utils/Nav";
 import { AuthProvider } from "@/Utils/Context/AuthContext";
+import { getHref } from "@/Utils/urlHelpers";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,6 +12,14 @@ export const metadata: Metadata = {
   title: "MyGhs",
   description: "Recursos para GHS y Seguridad Química en Minería",
 };
+
+const style: React.CSSProperties = {
+  display: "grid",
+  minHeight: "100dvh",
+  gridTemplateRows: "auto 1fr auto",
+};
+
+
 
 export default function RootLayout({
   children,
@@ -20,8 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className='bg-white'>
         <AuthProvider>
-          <Nav></Nav>
-          <main>{children}</main>
+          <div>
+            <Nav></Nav>
+            <main className="m-auto">{children}</main>
+           
+          </div>
         </AuthProvider>
       </body>
     </html>

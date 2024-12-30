@@ -52,7 +52,7 @@ const Page: React.FC = () => {
 
     if (loading) {
         return (
-            <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+            <div className='flex min-h-screen justify-between text-gray-500 py-3 md:py-3 px-10 md:px-24'>
                 <div className='flex flex-col items-center w-full'>
                     <div className="animate-pulse w-3/4 h-8 bg-gray-300 rounded my-4"></div>
                     <div className="animate-pulse w-full h-4 bg-gray-300 rounded mb-10"></div>
@@ -72,7 +72,7 @@ const Page: React.FC = () => {
     }
 
     return (
-        <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+        <div className='flex min-h-screen justify-between text-gray-500 py-5 md:py-5 px-10 md:px-24'>
             <div className='flex flex-col items-center w-full'>
                 <h1 className='font-bold text-2xl m-4 text-center'>
                     {soluciones.titulo}

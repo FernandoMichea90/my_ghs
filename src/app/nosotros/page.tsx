@@ -35,7 +35,7 @@ const Page = () => {
   const cleanHtml = nosotrosText;
 
   return (
-    <div className='flex min-h-screen justify-between text-gray-500 py-24 md:py-24 px-10 md:px-24'>
+    <div className='flex min-h-screen justify-between text-gray-500 py-5 md:py-5 px-10 md:px-24'>
       {loading ? (
         <div className='space-y-6 w-full'>
           <div className='h-8 bg-gray-300 rounded animate-pulse w-1/2'></div>
