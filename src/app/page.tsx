@@ -26,14 +26,21 @@ export default function Home() {
     titulo: string;
     img: string;
   }
-
+  
   const [infoHome, setInfoHome] = useState<InfoHome | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[] | null>(null);
   const [email, setEmail] = useState<string>("");
   const [showToast, setShowToast] = useState<Boolean>(false);
   const [cargando, setCargando] = useState<Boolean>(false);
-
-
+  const estilo_div: React.CSSProperties = {
+    display: "grid",
+    minHeight: "100dvh",
+    gridTemplateRows: "1fr auto",
+  };
+  
+  const estilo_main="pt-24 md:pt-24 px-1 md:px-24"
+  const estilo_main_cargando="py-24 md:py-24 px-1 md:px-24"
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault();
@@ -78,6 +85,8 @@ export default function Home() {
     const fetchData = async () => {
       const infoDocRef = doc(db, "Home", "info");
       const arrayDocRef = doc(db, "Home", "arrayInfo");
+
+      
 
       const infoDocSnap = await getDoc(infoDocRef);
       if (infoDocSnap.exists()) {
@@ -130,105 +139,106 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="py-24 md:py-24 px-1 md:px-24">
-      {/* Toast */}
-      {showToast && (
-        <div className="fixed top-25 right-10 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
-          ¡Correo guardado exitosamente!
-        </div>
+    <main style={estilo_div} className="pt-24 md:pt-24 px-1 md:px-24">
+      <div className={infoHome? "m-auto": "m-auto w-full"} >
+          {/* Toast */}
+          {showToast && (
+            <div className="fixed top-25 right-10 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
+              ¡Correo guardado exitosamente!
+            </div>
 
-      )}
+          )}
 
+          <div className="flex items-center justify-between text-gray-900">
 
+            <div className="flex-1 p-4 mt-12">
+              {infoHome ? (
+                <>
+                  <h1 className="text-4xl font-bold mb-4 text-center">
+                    {infoHome.titulo}
+                  </h1>
 
-
-      <div className="flex items-center justify-between text-gray-900">
-
-        <div className="flex-1 p-4 mt-12">
-          {infoHome ? (
-            <>
-              <h1 className="text-4xl font-bold mb-4 text-center">
-                {infoHome.titulo}
-              </h1>
-
-              {infoHome.url_sponsor && infoHome.text_sponsor &&
-              
-                <div className="text-center flex items-center justify-center mb-4">
-                  <span className="flex-1 text-center pr-2">
-                    {"Sponsor: "}
+                  {infoHome.url_sponsor && infoHome.text_sponsor &&
                   
-                    <a className="text-red-600 underline" href={infoHome.url_sponsor} target="_blank">
-                      {infoHome.text_sponsor}
-                    </a>
-                  </span>
-                </div>
-              
-              }
-              <p className="mb-4 text-center">
-                {infoHome.parrafo}
-              </p>
-              <div className="w-full flex justify-center items-center align-middle">
-                <div className="flex-1 flex justify-end" id="prueba">
-                  <form onSubmit={handleSubmit} >
-                    <button
-                      className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center mr-1  ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
-                      disabled={cargando ? true : false}
-                      onClick={() => {
-                        if (!cargando && infoHome.url_file_main) {
-                          window.open(infoHome.url_file_main, '_blank'); // Abre la URL en una nueva pestaña
-                        }
-                      }}
-                    >
-                      {cargando ? (
-                        <>
-                          <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
-                          Descargando
-                        </>
-                      ) : (
-                        "+7k Descargas"
-                      )}
-                    </button>
+                    <div className="text-center flex items-center justify-center mb-4">
+                      <span className="flex-1 text-center pr-2">
+                        {"Sponsor: "}
+                      
+                        <a className="text-red-600 underline" href={infoHome.url_sponsor} target="_blank">
+                          {infoHome.text_sponsor}
+                        </a>
+                      </span>
+                    </div>
+                  
+                  }
+                  <p className="mb-4 text-center">
+                    {infoHome.parrafo}
+                  </p>
+                  <div className="w-full flex justify-center items-center align-middle">
+                    <div className="flex-1 flex justify-end" id="prueba">
+                      <form onSubmit={handleSubmit} >
+                        <button
+                          className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center mr-1  ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
+                          disabled={cargando ? true : false}
+                          onClick={() => {
+                            if (!cargando && infoHome.url_file_main) {
+                              window.open(infoHome.url_file_main, '_blank'); // Abre la URL en una nueva pestaña
+                            }
+                          }}
+                        >
+                          {cargando ? (
+                            <>
+                              <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
+                              Descargando
+                            </>
+                          ) : (
+                            "+7k Descargas"
+                          )}
+                        </button>
 
-                  </form>
+                      </form>
+                    </div>
+                    <div className="flex-1 m-auto">
+                      <span >
+                        Última versión {infoHome.actualizacion ? formatDate(infoHome.actualizacion)+' ' : 'No disponible'}  
+                        | <a href={infoHome.url_file_alert} target="_blank" >   Alertas</a> | <a href={infoHome.url_file_plazos} target="_blank" >Plazos</a>
+                      </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="animate-pulse">
+                  <div className="h-8 bg-gray-300 rounded mb-4 w-3/4"></div>
+                  <div className="h-4 bg-gray-300 rounded mb-4 w-full"></div>
+                  <div className="h-4 bg-gray-300 rounded mb-4 w-full"></div>
+                  <div className="flex">
+                    <div className="h-10 bg-gray-300 rounded w-32 mr-4 "></div>
+                    <div className="h-10 bg-gray-300 rounded flex-1"></div>
+                  </div>
                 </div>
-                <div className="flex-1 m-auto">
-                  <span >
-                     Última versión {infoHome.actualizacion ? formatDate(infoHome.actualizacion)+' ' : 'No disponible'}  
-                    | <a href={infoHome.url_file_alert} target="_blank" >   Alertas</a> | <a href={infoHome.url_file_plazos} target="_blank" >Plazos</a>
-                  </span>
+              )}
+            </div>
+            <div className="flex-1 flex-col p-4 hidden lg:flex items-center">
+              {infoHome ? (
+                <>
+                  <img className="w-[95%]" src={getHref('icono_ghs/home_icon.png')} alt="Imagen descriptiva" />
+                </>
+              ) : (
+                <div className="animate-pulse flex flex-col items-center" >
+                  <div className="h-64 bg-gray-300 rounded w-[300px] mb-`5" style={{ transform: 'rotate(0deg)' }}></div>
+                  <div className="h-6 bg-gray-300 rounded w-[300px] mt-5"></div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-300 rounded mb-4 w-3/4"></div>
-              <div className="h-4 bg-gray-300 rounded mb-4 w-full"></div>
-              <div className="h-4 bg-gray-300 rounded mb-4 w-full"></div>
-              <div className="flex">
-                <div className="h-10 bg-gray-300 rounded w-32 mr-4 "></div>
-                <div className="h-10 bg-gray-300 rounded flex-1"></div>
-              </div>
+              )}
             </div>
-          )}
-        </div>
-        <div className="flex-1 flex-col p-4 hidden lg:flex items-center">
-          {infoHome ? (
-            <>
-              <img className="w-[95%]" src={getHref('icono_ghs/home_icon.png')} alt="Imagen descriptiva" />
-            </>
-          ) : (
-            <div className="animate-pulse flex flex-col items-center" >
-              <div className="h-64 bg-gray-300 rounded w-[300px] mb-`5" style={{ transform: 'rotate(0deg)' }}></div>
-              <div className="h-6 bg-gray-300 rounded w-[300px] mt-5"></div>
-            </div>
-          )}
-        </div>
+          </div>
       </div>
-      <div className="flex justify-center items-center my-12">
-        <span> mGHS es usado por equipos de seguridad y medio ambiente </span>
-      </div>
-      <div className="flex justify-center items-center">
-        <img src={getHref("iconos_empresa.png")}></img>
+      <div>
+        <div className="flex justify-center items-center my-12">
+          <span> mGHS es usado por equipos de seguridad y medio ambiente </span>
+        </div>
+        <div className="flex justify-center items-center">
+          <img src={getHref("iconos_empresa.png")}></img>
+        </div>
       </div>
     </main>
   );
