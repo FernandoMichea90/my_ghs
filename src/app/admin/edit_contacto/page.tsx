@@ -63,7 +63,8 @@ const AdminPage = () => {
             value={contactoText}
             onChange={handleEditorChange}
             theme='snow'
-            modules={{
+            modules={
+              {
               toolbar: [
                 [{ 'header': '1'}, { 'header': '2' }, { 'header': [1,2,3, 4, 5, 6] }], // Encabezados
                 [{ 'font': [] }], // Familia de fuente
