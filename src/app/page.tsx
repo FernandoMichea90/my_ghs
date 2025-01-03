@@ -5,6 +5,8 @@ import { addDoc, collection, doc, getDoc, setDoc, Timestamp } from "firebase/fir
 import ArrayInfoDiv from "@/Utils/Componentes/ArrayInfoDiv";
 import { getHref } from "@/Utils/urlHelpers";
 import { url } from "inspector";
+import 'react-quill/dist/quill.snow.css';
+
 
 export default function Home() {
   interface InfoHome {
@@ -19,6 +21,7 @@ export default function Home() {
     actualizacion: Timestamp | null;
     text_sponsor:string;
     url_sponsor:string;
+    titulo_dos:string;
   }
 
   interface ArrayInfoInt {
@@ -103,7 +106,8 @@ export default function Home() {
           url_file_plazos:"",
           text_sponsor:"",
           url_sponsor:"",
-          actualizacion: null
+          actualizacion: null,
+          titulo_dos:""
         };
         await setDoc(infoDocRef, initialInfoData);
         setInfoHome(initialInfoData);
@@ -154,9 +158,7 @@ export default function Home() {
             <div className="flex-1 p-4 mt-12">
               {infoHome ? (
                 <>
-                  <h1 className="text-4xl font-bold mb-4 text-center">
-                    {infoHome.titulo}
-                  </h1>
+                  <div className="text-center ql-editor" style={{textAlign:'center'}} dangerouslySetInnerHTML={{ __html: infoHome.titulo_dos }}></div>
 
                   {infoHome.url_sponsor && infoHome.text_sponsor &&
                   

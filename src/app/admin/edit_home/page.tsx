@@ -4,10 +4,14 @@ import { db } from "@/lib/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import ButtonUrlFile from "@/components/ButtonUrlFile";
 import SaveLinkOrFile from "@/Utils/Componentes/SaveLinkOrFile";
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
 
 export default function EditHome() {
   interface InfoHome {
     titulo: string;
+    titulo_dos:string;
     parrafo: string;
     text_sponsor:string;
     url_sponsor:string;
@@ -29,6 +33,7 @@ export default function EditHome() {
 
   const [infoHome, setInfoHome] = useState<InfoHome>({
     titulo: '',
+    titulo_dos:'',
     parrafo: '',
     url_file_main: '',
     url_file_alert: '',
@@ -42,7 +47,7 @@ export default function EditHome() {
   const [href, setHref] = useState('');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[]>([]);
-
+  
 
 
   useEffect(() => {
@@ -95,6 +100,7 @@ export default function EditHome() {
 
   return (
     <main className="px-1 md:px-24  text-gray-900">
+      
       <div className="bg-gray-100 p-3 mb-6 rounded">
         <h1 className="text-2xl font-bold mb-4">Edit Home Information</h1>
         <label className="block mb-2">Titulo:</label>
@@ -104,7 +110,51 @@ export default function EditHome() {
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
         />
-        <label className="block mb-2">Texto:</label>
+        <label className="block mb-2">Titulo Dos:</label>
+        {/* Se ocupar react quill */}
+        <ReactQuill
+          value={infoHome.titulo_dos}
+          onChange={(value) => setInfoHome((prevInfoHome) => ({ ...prevInfoHome, titulo_dos: value }))}
+          className="mb-4"
+          theme="snow"
+          modules={
+              {
+              toolbar: [
+                [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
+                [{ 'color':  ['#dc2626'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
+                ['bold'], // Estilo de texto
+                ['clean'] // Limpiar formato
+              ],
+              
+            }} // Configuración personalizada
+            formats={[  
+              'align',
+              'background',
+              'blockquote',
+              'bold',
+              'bullet',
+              'code',
+              'code-block',
+              'color',
+              'direction',
+              'font',
+              'formula',
+              'header',
+              'indent',
+              'italic',
+              'link',
+              'list',
+              'script',
+              'size',
+              'strike',
+              'table',
+              'underline',
+              'image',
+              'video'
+            ]} // Formatos personalizados
+        />
+
+        <label className="block mb-2">Texto: </label>
         <textarea
           name="parrafo"
           value={infoHome.parrafo}
