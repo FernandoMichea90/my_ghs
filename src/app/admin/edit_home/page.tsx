@@ -121,7 +121,7 @@ export default function EditHome() {
               {
               toolbar: [
                 [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
-                [{ 'color':  ['#ff0000', '#cc0000', '#990000', '#660000', '#330000'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
+                [{ 'color':  ['#dc2626'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
                 ['bold'], // Estilo de texto
                 ['clean'] // Limpiar formato
               ],

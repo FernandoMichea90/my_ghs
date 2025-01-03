@@ -158,9 +158,6 @@ export default function Home() {
             <div className="flex-1 p-4 mt-12">
               {infoHome ? (
                 <>
-                  <h1 className="text-4xl font-bold mb-4 text-center">
-                    {infoHome.titulo}
-                  </h1>
                   <div className="text-center ql-editor" style={{textAlign:'center'}} dangerouslySetInnerHTML={{ __html: infoHome.titulo_dos }}></div>
 
                   {infoHome.url_sponsor && infoHome.text_sponsor &&
