@@ -239,7 +239,7 @@ export default function Home() {
           <span> mGHS es usado por equipos de seguridad y medio ambiente </span>
         </div>
         <div className="flex justify-center items-center">
-          <img src={getHref("iconos_empresa.png")}></img>
+          <img src={getHref("Clientes2.jpg")} style={{margin:"0 0 30px"}}></img>
         </div>
       </div>
     </main>
