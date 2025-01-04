@@ -24,12 +24,18 @@ const Page: React.FC = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchData = async () => {
-        const querySnapshot = await getDocs(collection(db, 'PagWhy'));
-        const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DocumentData[];
-        const formattedData = formatData(items);
-        setSoluciones(formattedData);
-        setLoading(false);
+        try {
+            const querySnapshot = await getDocs(collection(db, 'PagWhy'));
+            const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DocumentData[];
+            const formattedData = formatData(items);
+            setSoluciones(formattedData);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        } finally {
+            setLoading(false);
+        }
     };
+    
 
     const formatData = (items: DocumentData[]): Soluciones => {
         const cabeza = items.find(item => item.id === 'Cabeza');
@@ -83,12 +89,16 @@ const Page: React.FC = () => {
 
                 <div className="flex flex-wrap justify-between items-center my-10">
                     {soluciones.soluciones.map((response, index) => (
-                        <div key={index} className="p-2 text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-                            <div className="w-[140px] h-[140px] mx-auto bg-gray-500 rounded-full overflow-hidden">
+                        <div key={index} className="p-2 text-center h-full w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+                            <div className="w-[140px] h-[140px] mx-auto mb-7 min-h-[140px] bg-gray-500 rounded-full overflow-hidden">
                                 <img className="w-full h-full object-cover" src={response.img} alt={response.titulo} />
                             </div>
-                            <h1 className="my-7 font-bold">{response.titulo}</h1>
-                            <p>{response.texto}</p>
+                            <div className='my-4'>
+                                <div className="h-[60px] m-auto">
+                                    <h1 className="font-bold">{response.titulo}</h1>
+                                </div>
+                                <p>{response.texto}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
