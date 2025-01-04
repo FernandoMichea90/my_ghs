@@ -148,7 +148,7 @@ export default function Home() {
           {/* Toast */}
           {showToast && (
             <div className="fixed top-25 right-10 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
-              ¡Correo guardado exitosamente!
+              ¡Correo guardado exitosamente!    
             </div>
 
           )}
