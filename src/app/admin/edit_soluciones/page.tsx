@@ -1,13 +1,15 @@
 'use client'
-import { db } from '@/lib/firebase';
+import { db, storage } from '@/lib/firebase';
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, DocumentData } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 interface Solucion {
     id: string;
     img: string;
     titulo: string;
     texto: string;
+    posicion: number;
 }
 
 interface Soluciones {
@@ -20,13 +22,16 @@ const EditSoluciones: React.FC = () => {
     const [soluciones, setSoluciones] = useState<Soluciones>({
         titulo: '',
         texto: '',
-        soluciones: []
+        soluciones: [],
     });
     const [loading, setLoading] = useState(true);
+
+
 
     const fetchData = async () => {
         const querySnapshot = await getDocs(collection(db, 'PagWhy'));
         const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as DocumentData[];
+        items.sort((a, b) => a.posicion - b.posicion);
         const formattedData = formatData(items);
         setSoluciones(formattedData);
         setLoading(false);
@@ -38,7 +43,8 @@ const EditSoluciones: React.FC = () => {
             id: item.id,
             img: item.foto,
             titulo: item.titulo,
-            texto: item.descripcion
+            texto: item.descripcion,
+            posicion: item.posicion
         }));
 
         return {
@@ -54,6 +60,25 @@ const EditSoluciones: React.FC = () => {
         setSoluciones(updatedSoluciones);
     };
 
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+        if (!e.target.files || e.target.files.length === 0) {
+            return;
+        }
+        const imagen = e.target.files[0];
+        // Guardar imagen en firebase
+        const storageRef = ref(storage, `PagWhy/${soluciones.soluciones[index].id}`);
+        try {
+            const snapshot = await uploadBytes(storageRef, imagen);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+            const updatedSoluciones = { ...soluciones };
+            updatedSoluciones.soluciones[index].img = downloadURL;
+            setSoluciones(updatedSoluciones);
+        } catch (error) {
+            console.error('Error uploading image: ', error);
+
+        }
+    }
+
     const handleSave = async () => {
         try {
             const cabezaDoc = doc(db, 'PagWhy', 'Cabeza');
@@ -62,8 +87,11 @@ const EditSoluciones: React.FC = () => {
                 descripcion: soluciones.texto
             });
 
+
+
             for (const solucion of soluciones.soluciones) {
                 const solucionDoc = doc(db, 'PagWhy', solucion.id);
+
                 await updateDoc(solucionDoc, {
                     titulo: solucion.titulo,
                     descripcion: solucion.texto,
@@ -110,7 +138,7 @@ const EditSoluciones: React.FC = () => {
                 </div>
                 {soluciones.soluciones.map((solucion, index) => (
                     <div key={solucion.id} className='mb-4'>
-                        <h2 className='text-xl font-bold mb-4 text-gray-800'>{`Solución ${index + 1}`}</h2>
+                        <h2 className='text-xl font-bold mb-4 text-gray-800'>{`Solución ${solucion.posicion}`}</h2>
                         <div className='mb-4'>
                             <label htmlFor={`titulo-${index}`} className='block text-gray-700 mb-2'>Título</label>
                             <input
@@ -130,15 +158,17 @@ const EditSoluciones: React.FC = () => {
                                 className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                             />
                         </div>
-                        <div className='mb-4'>
-                            <label htmlFor={`img-${index}`} className='block text-gray-700 mb-2'>URL de la Imagen</label>
+                        <div className='mb-4 border border-gray-300 rounded-lg p-3'  >
+                            <label htmlFor={`img-${index}`} className='block text-gray-700 mb-2'>Imagen</label>
+                            <img src={solucion.img} alt={`Imagen ${index}`} className='w-1/4 h-auto mb-2' />
                             <input
-                                type='text'
+                                type='file'
                                 id={`img-${index}`}
-                                value={solucion.img}
-                                onChange={(e) => handleInputChange(e, index, 'img')}
+                                accept='image/*'
+                                onChange={(e) => handleImageChange(e, index)}
                                 className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500'
                             />
+
                         </div>
                     </div>
                 ))}
