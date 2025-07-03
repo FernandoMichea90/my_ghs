@@ -226,7 +226,7 @@ const SaveLinkOrFile: React.FC<SaveLinkOrFileProps> = ({
             {nameArchivo === 'url_file_main' && archivo.src && (
                 <div className="mt-4">
                     <h3 className="text-lg font-semibold mb-2">Imagen actual del PDF:</h3>
-                    <div className="border border-gray-300 rounded-lg p-2 bg-white">
+                    <div className="border border-gray-300 rounded-lg p-2 bg-white w-fit">
                         <img 
                             src={archivo.src} 
                             alt="Imagen del PDF" 

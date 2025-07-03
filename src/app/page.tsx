@@ -22,6 +22,7 @@ export default function Home() {
     text_sponsor: string;
     url_sponsor: string;
     titulo_dos: string;
+    pie_de_pagina:string;
   }
 
   interface ArrayInfoInt {
@@ -133,7 +134,8 @@ export default function Home() {
           text_sponsor: "",
           url_sponsor: "",
           actualizacion: null,
-          titulo_dos: ""
+          titulo_dos: "",
+          pie_de_pagina: ""
         };
         await setDoc(infoDocRef, initialInfoData);
         setInfoHome(initialInfoData);
@@ -170,7 +172,7 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-screen" >
-              <div style={estilo_div} className="w-full md:w-3/4 px-1 md:px-24">
+      <div style={estilo_div} className="w-full md:w-3/4 px-1 md:px-24">
         <div className={infoHome ? "m-auto" : "m-auto w-full"} >
           {/* Toast */}
           {showToast && (
@@ -247,12 +249,36 @@ export default function Home() {
                   </div>
                 </div>
               )}
+
+                <div className="flex md:hidden items-center justify-center mr-[100px] w-full p-10">
+                 {infoHome?.src && (
+                   <img
+                     className="max-h-[24rem] transform -rotate-20 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+                     style={{
+                       transform: 'rotate(-20deg)',
+                       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+                       filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))'
+                     }}
+                     src={infoHome.src}
+                     alt="PDF Preview"
+                   />
+                 )}
+               </div>
+              
             </div>
 
           </div>
         </div>
+        <div className="flex justify-center items-center">
+                {/* pie de pagina */}
+                {infoHome?.pie_de_pagina && (
+                  <div className="text-center ql-editor" style={{ padding: "20px 0px" }} dangerouslySetInnerHTML={{ __html: infoHome?.pie_de_pagina }}></div>
+                )}
+        </div>
+
       </div>
-              <div className="hidden md:flex w-1/4 bg-primaryVerde items-center justify-center">
+
+      <div className="hidden md:flex w-1/4 bg-primaryVerde items-center justify-center">
         <div className="flex items-center justify-center mr-[100px]">
           {infoHome?.src && (
             <img
@@ -269,6 +295,7 @@ export default function Home() {
         </div>
       </div>
 
+      
     </main>
   );
 }

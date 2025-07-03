@@ -21,6 +21,7 @@ export default function EditHome() {
     url_file_sponsor: string;
     src: any;
     pdf: any;
+    pie_de_pagina:string;
 
 
   }
@@ -42,7 +43,8 @@ export default function EditHome() {
     pdf: null,
     url_file_sponsor: '',
     text_sponsor:'',
-    url_sponsor:''
+    url_sponsor:'',
+    pie_de_pagina:''
   });
   const [href, setHref] = useState('');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -103,14 +105,14 @@ export default function EditHome() {
       
       <div className="bg-gray-100 p-3 mb-6 rounded">
         <h1 className="text-2xl font-bold mb-4">Edit Home Information</h1>
-        <label className="block mb-2">Titulo:</label>
+        {/* <label className="block mb-2">Titulo:</label>
         <input
           name="titulo"
           value={infoHome.titulo}
           onChange={handleInfoHomeChange}
           className="border p-2 w-full mb-4"
-        />
-        <label className="block mb-2">Titulo Dos:</label>
+        /> */}
+        <label className="block mb-2">Titulo:</label>
         {/* Se ocupar react quill */}
         <ReactQuill
           value={infoHome.titulo_dos}
@@ -181,13 +183,57 @@ export default function EditHome() {
           className="border p-2 w-full mb-4"
         />
 
+        <label className="block mb-2">Pie de página:</label>
+        <ReactQuill
+          value={infoHome.pie_de_pagina}
+          onChange={(value) => setInfoHome((prevInfoHome) => ({ ...prevInfoHome, pie_de_pagina: value }))}
+          className="mb-4"
+          theme="snow"
+          modules={
+              {
+              toolbar: [
+                [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
+                [{ 'color':  ['#dc2626','#3b7d23'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
+                ['bold'], // Estilo de texto
+                ['link'], // Estilo de texto
+                ['clean'] // Limpiar formato
+              ],
+              
+            }} // Configuración personalizada
+            formats={[  
+              'align',
+              'background',
+              'blockquote',
+              'bold',
+              'bullet',
+              'code',
+              'code-block',
+              'color',
+              'direction',
+              'font',
+              'formula',
+              'header',
+              'indent',
+              'italic',
+              'link',
+              'list',
+              'script',
+              'size',
+              'strike',
+              'table',
+              'underline',
+              'image',
+              'video'
+            ]} // Formatos personalizados
+        />
         <button onClick={handleSubmit} className="bg-blue-500 rounded text-white py-2 px-4">Guardar</button>
       </div>
+      
 
 
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" acceptedFileTypes=".pdf" ></SaveLinkOrFile>
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_alert" ></SaveLinkOrFile>
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
+      {/* <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_alert" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_plazos" ></SaveLinkOrFile> */}
 
     </main>
   );
