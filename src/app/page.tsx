@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
-  import { db } from "@/lib/firebase";
+import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, getDoc, setDoc, Timestamp } from "firebase/firestore";
 import ArrayInfoDiv from "@/Utils/Componentes/ArrayInfoDiv";
 import { getHref } from "@/Utils/urlHelpers";
@@ -19,9 +19,9 @@ export default function Home() {
     url_file_plazos: string;
     url_file_sponsor: string;
     actualizacion: Timestamp | null;
-    text_sponsor:string;
-    url_sponsor:string;
-    titulo_dos:string;
+    text_sponsor: string;
+    url_sponsor: string;
+    titulo_dos: string;
   }
 
   interface ArrayInfoInt {
@@ -29,47 +29,73 @@ export default function Home() {
     titulo: string;
     img: string;
   }
-  
+
   const [infoHome, setInfoHome] = useState<InfoHome | null>(null);
   const [arrayInfo, setArrayInfo] = useState<ArrayInfoInt[] | null>(null);
   const [email, setEmail] = useState<string>("");
-  const [showToast, setShowToast] = useState<Boolean>(false);
-  const [cargando, setCargando] = useState<Boolean>(false);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [cargando, setCargando] = useState<boolean>(false);
   const estilo_div: React.CSSProperties = {
     display: "grid",
     minHeight: "100dvh",
     gridTemplateRows: "1fr auto",
   };
-  
-  const estilo_main="pt-24 md:pt-24 px-1 md:px-24"
-  const estilo_main_cargando="py-24 md:py-24 px-1 md:px-24"
-  
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
+  const estilo_main = "pt-24 md:pt-24 px-1 md:px-24"
+  const estilo_main_cargando = "py-24 md:py-24 px-1 md:px-24"
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setCargando(true);    
+
+    if (!email.trim()) return;
+
+    // Validar formato de email
+    if (!isValidEmail(email)) {
+      alert("Por favor, ingresa un email válido");
+      return;
+    }
+
+    setCargando(true);
+
+    try {
+      const success = await saveEmail(email);
+      if (success) {
+        setShowToast(true);
+        setEmail("");
+        // Abrir el archivo después de guardar el email
+        if (infoHome?.url_file_main) {
+          window.open(infoHome.url_file_main, '_blank');
+        }
+      }
+    } catch (error) {
+      console.error("Error al procesar el formulario:", error);
+    } finally {
       setTimeout(() => {
         setShowToast(false);
         setCargando(false);
       }, 3000);
-
-      setEmail("");
-
+    }
   }
 
-  const changeTimestampDate=(time_actualizacion:Timestamp)=>{
-    var fecha_actualizacion= time_actualizacion
+  const changeTimestampDate = (time_actualizacion: Timestamp) => {
+    var fecha_actualizacion = time_actualizacion
     return fecha_actualizacion
   }
 
   function formatDate(timestamp: Timestamp | null): string {
     if (!timestamp) return 'Sin fecha';
-  
+
     const date = new Date(timestamp.toDate());
     const day = date.getDate();
     const month = date.toLocaleString('es-ES', { month: 'short' }).toLowerCase();
-  
+
     return `${day}-${month}`;
+  }
+
+  // Función para validar formato de email
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 
   // funcion para guardar el correo  en la base de datos de firebase 
@@ -89,7 +115,7 @@ export default function Home() {
       const infoDocRef = doc(db, "Home", "info");
       const arrayDocRef = doc(db, "Home", "arrayInfo");
 
-      
+
 
       const infoDocSnap = await getDoc(infoDocRef);
       if (infoDocSnap.exists()) {
@@ -100,14 +126,14 @@ export default function Home() {
           parrafo: "Aquí encontrarás formatos de HDS para minerales y sustancias químicas, presentaciones, minutas explicativas, acceso a software libre y recursos que te ayudarán a cumplir con el reglamento GHS y facilitar el acceso a mercado de tus productos",
           src: "./image1.png",
           pdf: "",
-          url_file_main:"",
-          url_file_alert:"",
-          url_file_sponsor:"",
-          url_file_plazos:"",
-          text_sponsor:"",
-          url_sponsor:"",
+          url_file_main: "",
+          url_file_alert: "",
+          url_file_sponsor: "",
+          url_file_plazos: "",
+          text_sponsor: "",
+          url_sponsor: "",
           actualizacion: null,
-          titulo_dos:""
+          titulo_dos: ""
         };
         await setDoc(infoDocRef, initialInfoData);
         setInfoHome(initialInfoData);
@@ -143,70 +169,72 @@ export default function Home() {
   }, []);
 
   return (
-    <main style={estilo_div} className="pt-24 md:pt-24 px-1 md:px-24">
-      <div className={infoHome? "m-auto": "m-auto w-full"} >
+    <main className="flex w-full h-screen" >
+              <div style={estilo_div} className="w-full md:w-3/4 px-1 md:px-24">
+        <div className={infoHome ? "m-auto" : "m-auto w-full"} >
           {/* Toast */}
           {showToast && (
             <div className="fixed top-25 right-10 bg-green-500 text-white py-2 px-4 rounded shadow-lg transition-opacity duration-300">
-              ¡Correo guardado exitosamente!    
+              ¡Correo guardado exitosamente!
             </div>
 
           )}
 
           <div className="flex items-center justify-between text-gray-900">
 
-            <div className="flex-1 p-4 mt-12">
+            <div className="flex-1 p-4">
               {infoHome ? (
                 <>
-                  <div className="text-center ql-editor" style={{textAlign:'center'}} dangerouslySetInnerHTML={{ __html: infoHome.titulo_dos }}></div>
+                  <div className="text-center ql-editor" style={{ padding: "12px 0px" }} dangerouslySetInnerHTML={{ __html: infoHome.titulo_dos }}></div>
 
-                  {infoHome.url_sponsor && infoHome.text_sponsor &&
-                  
-                    <div className="text-center flex items-center justify-center mb-4">
-                      <span className="flex-1 text-center pr-2">
-                        {"Sponsor: "}
-                      
-                        <a className="text-red-600 underline" href={infoHome.url_sponsor} target="_blank">
-                          {infoHome.text_sponsor}
-                        </a>
-                      </span>
-                    </div>
-                  
-                  }
-                  <p className="mb-4 text-center">
+
+                  <p className="mb-4">
                     {infoHome.parrafo}
                   </p>
                   <div className="w-full flex justify-center items-center align-middle">
                     <div className="flex-1 flex justify-end" id="prueba">
-                      <form onSubmit={handleSubmit} >
-                        <button
-                          className={`bg-red-600 text-white py-1 px-8  rounded-lg flex items-center mr-1  ${cargando ? "opacity-50 cursor-not-allowed" : ""}`}
-                          disabled={cargando ? true : false}
-                          onClick={() => {
-                            if (!cargando && infoHome.url_file_main) {
-                              window.open(infoHome.url_file_main, '_blank'); // Abre la URL en una nueva pestaña
-                            }
-                          }}
-                        >
-                          {cargando ? (
-                            <>
-                              <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
-                              Descargando
-                            </>
-                          ) : (
-                            "+7k Descargas"
-                          )}
-                        </button>
+                      <form onSubmit={handleSubmit} className="flex w-full">
+                        <div className="flex rounded-lg overflow-hidden border border-primaryVerde w-full">
+                          <input
+                            type="email"
+                            placeholder="Ingresa tu email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="px-4 py-2 outline-none border-none focus:ring-0 w-full"
+                            required
+                          />
+                          <button
+                            type="submit"
+                            className={`bg-primaryVerde text-white py-2 px-8 flex items-center ${cargando || !email || !isValidEmail(email) ? "opacity-50 cursor-not-allowed" : "hover:bg-green-700"}`}
+                            disabled={cargando || !email || !isValidEmail(email)}
 
+                          >
+                            {cargando ? (
+                              <>
+                                <svg className="animate-spin h-5 w-5 mr-3 border-t-2 border-white rounded-full" viewBox="0 0 24 24"></svg>
+                                Descargando
+                              </>
+                            ) : (
+                              "Descargar"
+                            )}
+                          </button>
+                        </div>
                       </form>
                     </div>
-                    <div className="flex-1 m-auto">
-                      <span >
-                        Última versión {infoHome.actualizacion ? formatDate(infoHome.actualizacion)+' ' : 'No disponible'}  
-                        | <a href={infoHome.url_file_alert} target="_blank" >   Alertas</a> | <a href={infoHome.url_file_plazos} target="_blank" >Plazos</a>
+                  </div>
+                  {infoHome && infoHome.url_sponsor && infoHome.text_sponsor &&
+
+                    <div className="flex items-center justify-center mb-4 mt-2">
+                      <span className="flex-1  pr-2 text-primaryVerde">
+                        {"Aprende más: "}
+
+                        <a className="text-primaryVerde underline" href={infoHome.url_sponsor} target="_blank">
+                          {infoHome.text_sponsor}
+                        </a>
                       </span>
                     </div>
-                  </div>
+
+                  }
                 </>
               ) : (
                 <div className="animate-pulse">
@@ -220,28 +248,27 @@ export default function Home() {
                 </div>
               )}
             </div>
-            <div className="flex-1 flex-col p-4 hidden lg:flex items-center">
-              {infoHome ? (
-                <>
-                  <img className="w-[95%]" src={getHref('icono_ghs/home_icon.png')} alt="Imagen descriptiva" />
-                </>
-              ) : (
-                <div className="animate-pulse flex flex-col items-center" >
-                  <div className="h-64 bg-gray-300 rounded w-[300px] mb-`5" style={{ transform: 'rotate(0deg)' }}></div>
-                  <div className="h-6 bg-gray-300 rounded w-[300px] mt-5"></div>
-                </div>
-              )}
-            </div>
+
           </div>
-      </div>
-      <div>
-        <div className="flex justify-center items-center my-12">
-          <span> mGHS es usado por equipos de seguridad y medio ambiente </span>
-        </div>
-        <div className="flex justify-center items-center">
-          <img src={getHref("iconos_empresas.jpg")} style={{margin:"0 0 30px"}}></img>
         </div>
       </div>
+              <div className="hidden md:flex w-1/4 bg-primaryVerde items-center justify-center">
+        <div className="flex items-center justify-center mr-[100px]">
+          {infoHome?.src && (
+            <img
+              className="max-h-[30rem] transform -rotate-20 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+              style={{
+                transform: 'rotate(-20deg)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
+                filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))'
+              }}
+              src={infoHome.src}
+              alt="PDF Preview"
+            />
+          )}
+        </div>
+      </div>
+
     </main>
   );
 }

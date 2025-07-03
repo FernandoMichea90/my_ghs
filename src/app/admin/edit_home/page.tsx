@@ -121,7 +121,7 @@ export default function EditHome() {
               {
               toolbar: [
                 [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
-                [{ 'color':  ['#dc2626'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
+                [{ 'color':  ['#dc2626','#3b7d23'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
                 ['bold'], // Estilo de texto
                 ['clean'] // Limpiar formato
               ],
@@ -185,7 +185,7 @@ export default function EditHome() {
       </div>
 
 
-      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" ></SaveLinkOrFile>
+      <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" acceptedFileTypes=".pdf" ></SaveLinkOrFile>
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_alert" ></SaveLinkOrFile>
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Plazos" nameArchivo="url_file_plazos" ></SaveLinkOrFile>
 
