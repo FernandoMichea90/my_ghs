@@ -89,7 +89,7 @@ const Page: React.FC = () => {
 
                 <div className="flex flex-wrap justify-between items-center my-10">
                     {soluciones.soluciones.map((response, index) => (
-                        <div key={index} className="p-2 text-center h-full w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
+                        <div key={index} className="p-2 text-center  w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                             <div className="w-[140px] h-[140px] mx-auto mb-7 min-h-[140px] bg-gray-500 rounded-full overflow-hidden">
                                 <img className="w-full h-full object-cover" src={response.img} alt={response.titulo} />
                             </div>

@@ -13,7 +13,7 @@ const Nav = () => {
     const [openModal, setOpenModal] = useState(false);
     const [open, setOpen] = useState(false);
     // const menuArray=['Inicio', 'Documentos', 'Nosotros', 'Soluciones', 'Contacto']
-    const menuArray = ['Inicio', 'Nosotros', 'Soluciones', 'Contacto', 'Suscribete']
+    const menuArray = ['Inicio', 'Nosotros', 'Soluciones']
     // state show toast
     const [showToast, setShowToast] = useState(false);
     // funcion para abrir el modal 
@@ -33,12 +33,8 @@ const Nav = () => {
                 <div>
                     <div className="flex justify-center items-center">
                         <a href={BASE_URL} className='m-auto py-[15px]'>
-                            <Image
-                                src={Icono}
-                                alt="Icon"
-                                width={90}
-                                height={32}
-                            />
+                        <span className="text-primaryVerde text-2xl font-bold">e</span>
+                        <span className="text-black text-2xl font-bold">-sbap</span>
                         </a>
                     </div>
                 </div>
@@ -62,7 +58,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 bg-transparent">
+            <nav className="fixed top-0 left-0 right-0 bg-white md:bg-transparent">
                 <ModalSuscribete open={openModal} handleClose={handleCloseModal} handleOpen={handleOPenModal} setShowToast={setShowToast} showToast={showToast} />
                 {/* Toast */}
                 {showToast && (

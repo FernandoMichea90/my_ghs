@@ -184,7 +184,7 @@ export default function Home() {
 
           <div className="flex items-center justify-between text-gray-900">
 
-            <div className="flex-1 p-4">
+            <div className="flex-1 p-4 mt-[14px] md:mt-0">
               {infoHome ? (
                 <>
                   <div className="text-center ql-editor" style={{ padding: "12px 0px" }} dangerouslySetInnerHTML={{ __html: infoHome.titulo_dos }}></div>
