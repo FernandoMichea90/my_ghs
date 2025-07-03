@@ -62,7 +62,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="bg-white fixed top-0 left-0 right-0 bg-transparent">
+            <nav className="fixed top-0 left-0 right-0 bg-transparent">
                 <ModalSuscribete open={openModal} handleClose={handleCloseModal} handleOpen={handleOPenModal} setShowToast={setShowToast} showToast={showToast} />
                 {/* Toast */}
                 {showToast && (
