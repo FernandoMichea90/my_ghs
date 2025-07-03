@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       colors: {
         primary: '#4eadea', // Definición del color principal
+        primaryVerde:'#3b7d23', // Definición del color verd
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
