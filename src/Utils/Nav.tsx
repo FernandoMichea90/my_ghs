@@ -8,7 +8,7 @@ import { getHref } from './urlHelpers';
 import ModalSuscribete from './Componentes/ModalSuscribete';
 
 const Nav = () => {
-    const Icono = getHref('icono_ghs/main_icon.png')
+    const Icono = getHref('icono_ghs/icono_verde_pagina.png')
     // abrir y cerrar modal 
     const [openModal, setOpenModal] = useState(false);
     const [open, setOpen] = useState(false);
@@ -33,8 +33,7 @@ const Nav = () => {
                 <div>
                     <div className="flex justify-center items-center">
                         <a href={BASE_URL} className='m-auto py-[15px]'>
-                        <span className="text-primaryVerde text-2xl font-bold">e</span>
-                        <span className="text-black text-2xl font-bold">-sbap</span>
+                        <Image src={Icono} alt="icono" width={50} height={50} />
                         </a>
                     </div>
                 </div>
@@ -76,8 +75,7 @@ const Nav = () => {
 
                             <div className="flex-shrink-0 flex items-center">
                                 <a href={BASE_URL}>
-                                    <span className="text-primaryVerde text-2xl font-bold">e</span>
-                                    <span className="text-black text-2xl font-bold">-sbap</span>
+                                    <Image src={Icono} alt="icono" width={50} height={50} />
                                 </a>
                             </div>
                         </div>

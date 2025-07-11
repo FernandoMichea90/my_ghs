@@ -158,7 +158,7 @@ const SaveLinkOrFile: React.FC<SaveLinkOrFileProps> = ({
                         type="file"
                         id="file"
                         accept={acceptedFileTypes}
-                        required
+                        required={acceptedFileTypes ? true : false}
                         onChange={handleFileChange}
                         className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border file:border-gray-300 file:text-gray-700"
                     />

@@ -22,8 +22,6 @@ export default function EditHome() {
     src: any;
     pdf: any;
     pie_de_pagina:string;
-
-
   }
 
   interface ArrayInfoInt {
@@ -122,9 +120,9 @@ export default function EditHome() {
           modules={
               {
               toolbar: [
-                [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
+                [{ 'size': ['small', 'large', 'huge', 'xlarge'] }], // Tamaño de fuente
                 [{ 'color':  ['#dc2626','#3b7d23'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
-                ['bold'], // Estilo de texto
+                ['bold','italic'], // Estilo de texto
                 ['clean'] // Limpiar formato
               ],
               
@@ -173,15 +171,7 @@ export default function EditHome() {
           className="border p-2 w-full mb-4"
         />
 
-      <label className="block mb-2">Link Sponsor:</label>
-        <input
-          name="url_sponsor"
-          type="url"
-          placeholder="https://example.com"
-          value={infoHome.url_sponsor}
-          onChange={handleInfoHomeChange}
-          className="border p-2 w-full mb-4"
-        />
+     
 
         <label className="block mb-2">Pie de página:</label>
         <ReactQuill
@@ -194,7 +184,7 @@ export default function EditHome() {
               toolbar: [
                 [{ 'size': ['small', false, 'large', 'huge'] }], // Tamaño de fuente
                 [{ 'color':  ['#dc2626','#3b7d23'] }, { 'background': [] }], // Color de texto y fondo }, { 'background': [] }], // Color de texto y fondo
-                ['bold'], // Estilo de texto
+                ['bold','italic'], // Estilo de texto
                 ['link'], // Estilo de texto
                 ['clean'] // Limpiar formato
               ],
@@ -229,7 +219,12 @@ export default function EditHome() {
         <button onClick={handleSubmit} className="bg-blue-500 rounded text-white py-2 px-4">Guardar</button>
       </div>
       
-
+      <SaveLinkOrFile 
+        archivo={infoHome} 
+        setArchivo={setInfoHome} 
+        titulo="Link o Archivo Sponsor" 
+        nameArchivo="url_sponsor" 
+        />     
 
       <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Archivo Principal" nameArchivo="url_file_main" acceptedFileTypes=".pdf" ></SaveLinkOrFile>
       {/* <SaveLinkOrFile archivo={infoHome} setArchivo={setInfoHome} titulo="Alertas" nameArchivo="url_file_alert" ></SaveLinkOrFile>

@@ -172,7 +172,7 @@ export default function Home() {
 
   return (
     <main className="flex w-full h-screen" >
-      <div style={estilo_div} className="w-full md:w-3/4 px-1 md:px-24">
+      <div style={estilo_div} className="w-full md:w-3/5 px-1 md:px-24">
         <div className={infoHome ? "m-auto" : "m-auto w-full"} >
           {/* Toast */}
           {showToast && (
@@ -278,13 +278,13 @@ export default function Home() {
 
       </div>
 
-      <div className="hidden md:flex w-1/4 bg-primaryVerde items-center justify-center">
-        <div className="flex items-center justify-center mr-[100px]">
+      <div className="hidden md:flex w-2/5 bg-primaryVerde items-center justify-center">
+        <div className="flex items-center justify-center mr-[235px]">
           {infoHome?.src && (
             <img
-              className="max-h-[30rem] transform -rotate-20 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+              className="max-h-[35rem] transform -rotate-10 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
               style={{
-                transform: 'rotate(-20deg)',
+                transform: 'rotate(-10deg)',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
                 filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))'
               }}
