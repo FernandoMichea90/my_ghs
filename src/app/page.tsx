@@ -194,8 +194,8 @@ export default function Home() {
                     {infoHome.parrafo}
                   </p>
                   <div className="w-full flex justify-center items-center align-middle">
-                    <div className="flex-1 flex justify-end" id="prueba">
-                      <form onSubmit={handleSubmit} className="flex w-full">
+                    <div className="flex-1 flex" id="prueba">
+                      <form onSubmit={handleSubmit} className="flex w-[80%]">
                         <div className="flex rounded-lg overflow-hidden border border-primaryVerde w-full">
                           <input
                             type="email"
