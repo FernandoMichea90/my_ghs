@@ -16,7 +16,7 @@
 }
 
 #nosotros h2 {
-    font-size: xx-large;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
@@ -27,7 +27,7 @@
 
 #nosotros h4 {
     font-size: large;
-    font-weight: bold;
+    /* font-weight: bold; */
 }
 
 #nosotros h5 {
