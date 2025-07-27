@@ -2,7 +2,6 @@
   "name": "my_ghs",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fernandomichea90.github.io/my_ghs/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
