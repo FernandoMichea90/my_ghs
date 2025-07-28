@@ -7,7 +7,7 @@ import { AuthProvider } from "@/Utils/Context/AuthContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MyGhs",
+  title: "e-sbap",
   description: "Recursos para GHS y Seguridad Química en Minería",
 };
 
