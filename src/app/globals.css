@@ -33,3 +33,6 @@ body {
 .ql-size-huge{
   font-size: 5rem !important;
 }
+.custom-max-width {
+  max-width: 108% !important;
+}

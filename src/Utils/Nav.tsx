@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
 import { useState } from "react";
+import { usePathname } from 'next/navigation';
 import { Box, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 import Image from 'next/image';
 import { BASE_URL } from '@/config-global';
@@ -8,6 +9,7 @@ import { getHref } from './urlHelpers';
 import ModalSuscribete from './Componentes/ModalSuscribete';
 
 const Nav = () => {
+    const pathname = usePathname();
     const Icono = getHref('icono_ghs/icono_verde_pagina.png')
     // abrir y cerrar modal 
     const [openModal, setOpenModal] = useState(false);
@@ -20,6 +22,32 @@ const Nav = () => {
     const handleOPenModal = () => setOpenModal(true);
     // funcion para cerrar el modal
     const handleCloseModal = () => setOpenModal(false);
+
+    // Función para obtener las clases de color según la ruta
+    const getNavLinkClasses = () => {
+        const isHomePage = pathname === '/';
+        
+        if (isHomePage) {
+            // En la página principal: texto blanco, hover verde con fondo blanco
+            return "text-white hover:text-primaryVerde hover:bg-white rounded-lg px-2 py-1";
+        } else {
+            // En otras páginas: texto verde, hover blanco con fondo verde
+            return "text-primaryVerde hover:text-white hover:bg-primaryVerde rounded-lg px-2 py-1";
+        }
+    };
+
+    // Función para obtener las clases del nav según la ruta
+    const getNavClasses = () => {
+        const isHomePage = pathname === '/';
+        
+        if (isHomePage) {
+            // En la página principal: fondo blanco en móvil, transparente en desktop
+            return "fixed top-0 left-0 right-0 bg-white md:bg-transparent";
+        } else {
+            // En otras páginas: fondo blanco siempre
+            return "fixed top-0 left-0 right-0 bg-white";
+        }
+    };
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -57,7 +85,7 @@ const Nav = () => {
 
     return (
         <>
-            <nav className="fixed top-0 left-0 right-0 bg-white md:bg-transparent">
+            <nav className={getNavClasses()}>
                 <ModalSuscribete open={openModal} handleClose={handleCloseModal} handleOpen={handleOPenModal} setShowToast={setShowToast} showToast={showToast} />
                 {/* Toast */}
                 {showToast && (
@@ -84,10 +112,10 @@ const Nav = () => {
                             {/* <a href={getHref('Documentos')} className="text-gray-700 hover:text-gray-900">
                                 Documentos
                             </a> */}
-                            <a href={getHref('Nosotros')} className="text-white hover:text-primaryVerde hover:bg-white rounded-lg px-2 py-1">
+                            <a href={getHref('Nosotros')} className={getNavLinkClasses()}>
                                 Nosotros
                             </a>
-                            <a href={getHref('Soluciones')} className="text-white hover:text-primaryVerde hover:bg-white rounded-lg px-2 py-1">
+                            <a href={getHref('Soluciones')} className={getNavLinkClasses()}>
                                 Soluciones
                             </a>
                            

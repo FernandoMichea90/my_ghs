@@ -22,7 +22,7 @@ export default function Home() {
     text_sponsor: string;
     url_sponsor: string;
     titulo_dos: string;
-    pie_de_pagina:string;
+    pie_de_pagina: string;
   }
 
   interface ArrayInfoInt {
@@ -194,12 +194,12 @@ export default function Home() {
                     {infoHome.parrafo}
                   </p>
                   <div className="w-full flex justify-center items-center align-middle">
-                    <div className="flex-1 flex" id="prueba">
-                      <form onSubmit={handleSubmit} className="flex w-[80%]">
+                    <div className="flex-1 flex w-full" id="prueba">
+                      <form onSubmit={handleSubmit} className="flex w-full">
                         <div className="flex rounded-lg overflow-hidden border border-primaryVerde w-full">
                           <input
                             type="email"
-                            placeholder="Ingresa tu email"
+                            placeholder="Ingresa tu email para descargar"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="px-4 py-2 outline-none border-none focus:ring-0 w-full"
@@ -250,30 +250,30 @@ export default function Home() {
                 </div>
               )}
 
-                <div className="flex md:hidden items-center justify-center mr-[100px] w-full p-10">
-                 {infoHome?.src && (
-                   <img
-                     className="max-h-[24rem] transform -rotate-20 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
-                     style={{
+              <div className="flex md:hidden items-center justify-center mr-[100px] w-full p-10">
+                {infoHome?.src && (
+                                     <img
+                     className="max-h-[24rem] transform -rotate-20 shadow-2xl hover:shadow-3xl transition-shadow duration-300 custom-max-width"
+                                         style={{
                        transform: 'rotate(-20deg)',
                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
-                       filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))'
+                       filter: 'drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1))',
                      }}
-                     src={infoHome.src}
-                     alt="PDF Preview"
-                   />
-                 )}
-               </div>
-              
+                    src={infoHome.src}
+                    alt="PDF Preview"
+                  />
+                )}
+              </div>
+
             </div>
 
           </div>
         </div>
         <div className="flex justify-center items-center">
-                {/* pie de pagina */}
-                {infoHome?.pie_de_pagina && (
-                  <div className="text-center ql-editor" style={{ padding: "20px 0px" }} dangerouslySetInnerHTML={{ __html: infoHome?.pie_de_pagina }}></div>
-                )}
+          {/* pie de pagina */}
+          {infoHome?.pie_de_pagina && (
+            <div className="text-center ql-editor" style={{ padding: "20px 0px" }} dangerouslySetInnerHTML={{ __html: infoHome?.pie_de_pagina }}></div>
+          )}
         </div>
 
       </div>
@@ -282,7 +282,7 @@ export default function Home() {
         <div className="flex items-center justify-center mr-[235px]">
           {infoHome?.src && (
             <img
-              className="max-h-[35rem] transform -rotate-10 shadow-2xl hover:shadow-3xl transition-shadow duration-300"
+              className="max-h-[35rem] transform -rotate-10 shadow-2xl hover:shadow-3xl transition-shadow duration-300 custom-max-width"
               style={{
                 transform: 'rotate(-10deg)',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)',
@@ -295,7 +295,7 @@ export default function Home() {
         </div>
       </div>
 
-      
+
     </main>
   );
 }

@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "e-sbap",
-  description: "Recursos para GHS y Seguridad Química en Minería",
+  description: "Monitoreo a la regulación en biodiversidad y el SBAP",
 };
 
 export default function RootLayout({
